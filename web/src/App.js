@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import {Route} from 'react-router-dom';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import Base from './components/Base';
 import './App.css';
 
 function App() {
@@ -13,12 +16,11 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-
-        ... no changes in this part ...
-
-        <p>The current time is {currentTime}.</p>
-      </header>
+        <Base>
+            <Route path="/" exact render={() => <p>The current time is {currentTime}.</p>} />
+            <Route path="/auth/signup" exact component={SignUp} />
+            <Route path="/auth/signin" exact component={SignIn} />
+        </Base>
     </div>
   );
 }

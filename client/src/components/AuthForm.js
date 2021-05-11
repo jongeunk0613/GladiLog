@@ -28,10 +28,10 @@ const StyledAuthForm = styled.form`
     }
 `;
 
-const AuthForm = ({children}) => {
+const AuthForm = ({children, handleSubmit}) => {
     return (
         <FormContainer>
-            <StyledAuthForm>
+            <StyledAuthForm onSubmit={handleSubmit}>
                 {children}
             </StyledAuthForm>
         </FormContainer>

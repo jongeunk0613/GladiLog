@@ -24,7 +24,10 @@ class DatabaseConnection():
         self.cursor = self.conn.cursor()
 
     def close(self):
-        if self.cursor:
-            self.cursor.close()
-            if self.conn:
-                self.conn.close()
+        try: 
+            if self.cursor:
+                self.cursor.close()
+                if self.conn:
+                    self.conn.close()
+        except BaseException as e:
+            raise e

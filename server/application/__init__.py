@@ -1,7 +1,6 @@
 import time
-from flask import Flask
+from flask import Flask, request
 from config import config
-
 
 def create_app(config_name):
     app = Flask(__name__)

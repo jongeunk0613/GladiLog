@@ -4,6 +4,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    MYSQL_HOST = os.getenv('DB_HOST')
+    MYSQL_USER = os.getenv('DB_USERNAME')
+    MYSQL_PASSWORD = os.getenv('DB_PASSWORD')
+    MYSQL_NAME = os.getenv('DB_NAME')
 
     @staticmethod
     def init_app(app):

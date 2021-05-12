@@ -6,17 +6,19 @@ import Button from '../components/Button';
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import AuthForm from '../components/AuthForm';
 import useInputs from '../utils/hooks/useInputs';
+import useAxios from 'axios-hooks';
 
 const SignIn = () => {
     const [state, onChange] = useInputs({
         username: '',
         password: ''
     })
+    const [{data}, refetch] = useAxios({url: '/auth/signin', method: 'POST'}, {manual: true});
     
     const handleSubmit = async (event) => {
         event.preventDefault();
                 
-        const response = await axios.post('/auth/signin', JSON.stringify(state));
+        const response = await refetch({data: JSON.stringify(state)});
         
         console.log(response.data)
         

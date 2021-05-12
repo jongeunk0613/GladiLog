@@ -5,8 +5,8 @@ import { Link, withRouter } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
-import usePromise from '../utils/hooks/usePromise';
 import useInputs from '../utils/hooks/useInputs';
+import useAxios from 'axios-hooks';
 
 
 const SignUp = ({history}) => {
@@ -16,13 +16,18 @@ const SignUp = ({history}) => {
         password: ''
     })
     
+    const [{data}, refetch] = useAxios({url: '/auth/signup', method: 'POST'}, {manual: true});
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
                 
-        const response = await axios.post('/auth/signup', JSON.stringify(state));
+        const response = await refetch({data: JSON.stringify(state)});
+        
+        console.log(response.data)
         
         if (response.data.success === true){
-            history.push('/auth/signin')
+            
+            // history.push('/auth/signin')
         }
     }
     

@@ -14,7 +14,7 @@ def create_app(config_name):
     config[config_name].init_app(app)
 
     jwt.init_app(app)
-    cors.init_app(app, origins=ALLOW_ORIGINS, supports_credentials=True)
+    cors.init_app(app, supports_credentials=True)
 
     @app.route('/time')
     def get_current_time():

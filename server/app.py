@@ -1,7 +1,6 @@
 import os, sys
 from application import create_app
 
-print("application.py", os.getenv('MESSAGE'))
 app = create_app(os.getenv('FLASK_ENV'))
 
 if __name__ == '__main__':

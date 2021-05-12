@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
@@ -9,7 +9,7 @@ import usePromise from '../utils/hooks/usePromise';
 import useInputs from '../utils/hooks/useInputs';
 
 
-const SignUp = () => {
+const SignUp = ({history}) => {
     const [state, onChange] = useInputs({
         email: '',
         username: '',
@@ -18,10 +18,12 @@ const SignUp = () => {
     
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log("SUBMIT", JSON.stringify(state));
                 
         const response = await axios.post('/auth/signup', JSON.stringify(state));
-        console.log(response.data);
+        
+        if (response.data.success === true){
+            history.push('/auth/signin')
+        }
     }
     
     return(

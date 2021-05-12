@@ -44,14 +44,14 @@ class DatabaseConnection():
             else:
                 self.cursor.callproc(procedure_name, params)
 
-            # result = [row for row in self.cursor]
+            result = [row for row in self.cursor]
 
             if with_commit:
                 self.conn.commit()
 
             self.close()
 
-            # return result
+            return result
         except Exception as e:
             self.close()
             raise e

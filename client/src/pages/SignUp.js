@@ -1,7 +1,5 @@
 import React from 'react';
-import axios from 'axios';
 import { faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import { Link, withRouter } from 'react-router-dom';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
@@ -21,12 +19,10 @@ const SignUp = ({history}) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
                 
-        const response = await refetch({data: JSON.stringify(state)});
-        
-        console.log(response.data)
-        
-        if (response.data.success === true){
-            
+        await refetch({data: JSON.stringify(state)});
+                        
+        if (data && data.success === 200){
+            console.log("200")
             // history.push('/auth/signin')
         }
     }

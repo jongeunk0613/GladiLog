@@ -11,7 +11,7 @@ from .. import jwt
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     db = DatabaseConnection()
-    user = db.call_procedure('GetUser', [identity])[0]
+    user = db.call_procedure('GetUserWithUsername', [identity])[0]
     return user
 
 
@@ -19,7 +19,7 @@ def user_lookup_callback(_jwt_header, jwt_data):
 def expired_token_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     db = DatabaseConnection()
-    user = db.call_procedure('GetUser', [identity])[0]
+    user = db.call_procedure('GetUserWithUsername', [identity])[0]
     rfsh_token = decode_token(user['refresh_token'])
     access_token = create_access_token(identity=user['username'])
     resp = jsonify({'success': True})
@@ -36,6 +36,12 @@ def signup():
                 return jsonify({'msg': 'One of the fields is missing.'}), 400
 
             db = DatabaseConnection()
+            if db.call_procedure('GetUserWithEmail', [data.get('email')]):
+                return jsonify({'msg': 'Email has already been taken.'}), 400
+
+            if db.call_procedure('GetUserWithUsername', [data.get('username')]):
+                return jsonify({'msg': 'Username has already been taken.'}), 400
+            
             db.call_procedure('CreateUser', [data.get('email'), data.get('username'), generate_password_hash(data.get('password'))], True)
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             raise e
@@ -48,7 +54,7 @@ def signin():
         try:
             db = DatabaseConnection()
             data = request.get_json(force=True)
-            user = db.call_procedure('GetUser', [data.get('username')])[0]
+            user = db.call_procedure('GetUserWithUsername', [data.get('username')])[0]
 
             if check_password_hash(user['password_hash'], data.get('password')):
                 access_token = create_access_token(identity=user['username'])

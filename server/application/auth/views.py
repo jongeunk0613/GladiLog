@@ -31,8 +31,11 @@ def expired_token_callback(_jwt_header, jwt_data):
 def signup():
     if request.method == 'POST':
         try:
-            db = DatabaseConnection()
             data = request.get_json(force=True)
+            if not data.get('email') or not data.get('username') or not data.get('password'):
+                return jsonify({'msg': 'One of the fields is missing.'}), 400
+
+            db = DatabaseConnection()
             db.call_procedure('CreateUser', [data.get('email'), data.get('username'), generate_password_hash(data.get('password'))], True)
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             raise e

@@ -45,11 +45,14 @@ class DatabaseConnection():
             else:
                 self.cursor.callproc(procedure_name, params)
 
-            row_headers = [rowh[0].lower() for rowh in self.cursor.description]
-            rows = [row for row in self.cursor]
-            result = []
-            for row in rows:
-                result.append(dict(zip(row_headers, row)))
+            if self.cursor.description:
+                row_headers = [rowh[0].lower() for rowh in self.cursor.description]
+                rows = [row for row in self.cursor]
+                result = []
+                for row in rows:
+                    result.append(dict(zip(row_headers, row)))
+            else:
+                result = None
 
             if with_commit:
                 self.conn.commit()

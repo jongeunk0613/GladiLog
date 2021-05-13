@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import useAxios, { configure } from 'axios-hooks';
+import { configure } from 'axios-hooks';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';

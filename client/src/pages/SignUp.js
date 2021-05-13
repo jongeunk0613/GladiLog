@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
 import useInputs from '../utils/hooks/useInputs';
 import useAxios from 'axios-hooks';
+import Message from '../components/Message';
 
 
 const SignUp = ({history}) => {
@@ -28,13 +29,16 @@ const SignUp = ({history}) => {
     }
     
     return(
-        <AuthForm height="45%" handleSubmit={handleSubmit}>
-            <Input icon={faEnvelope} iconPosition="has-icons-left" placeholder="Email" type="text" name="email" value={state.email} onChange={onChange}/>
-            <Input icon={faUser} iconPosition="has-icons-left" placeholder="Username" type="text" name="username" value={state.username} onChange={onChange}/>
-            <Input icon={faLock} iconPosition="has-icons-left" placeholder="Password" type="password" name="password" onChange={onChange}/>
-            <Input icon={faLock} iconPosition="has-icons-left" placeholder="Check Password" type="password" name="password2"/>
-            <Button color="is-info" content="SignUp" helpText="SignIn" /> 
-        </AuthForm>
+        <>
+            <Message content="SOMETHING" type="is-danger" show={false}/>
+            <AuthForm height="45%" handleSubmit={handleSubmit}>
+                <Input icon={faEnvelope} iconPosition="has-icons-left" placeholder="Email" type="text" name="email" value={state.email} onChange={onChange}/>
+                <Input icon={faUser} iconPosition="has-icons-left" placeholder="Username" type="text" name="username" value={state.username} onChange={onChange}/>
+                <Input icon={faLock} iconPosition="has-icons-left" placeholder="Password" type="password" name="password" onChange={onChange}/>
+                <Input icon={faLock} iconPosition="has-icons-left" placeholder="Check Password" type="password" name="password2"/>
+                <Button color="is-info" content="SignUp" helpText="SignIn" /> 
+            </AuthForm>
+        </>
     )
 }
 

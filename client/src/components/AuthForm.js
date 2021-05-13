@@ -4,8 +4,8 @@ import styled from 'styled-components';
 const FormContainer = styled.div`
     display: flex;
     justify-content: center;
-    align-items: center;
     height: 80vh;
+    margin-top: 5rem;
 `
 
 const StyledAuthForm = styled.form`
@@ -28,10 +28,10 @@ const StyledAuthForm = styled.form`
     }
 `;
 
-const AuthForm = ({children, handleSubmit}) => {
+const AuthForm = ({children, handleSubmit, height}) => {
     return (
         <FormContainer>
-            <StyledAuthForm onSubmit={handleSubmit}>
+            <StyledAuthForm onSubmit={handleSubmit} height={height}>
                 {children}
             </StyledAuthForm>
         </FormContainer>

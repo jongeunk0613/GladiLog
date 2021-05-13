@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 import MySQLdb
+from flask import jsonify
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
@@ -44,7 +45,11 @@ class DatabaseConnection():
             else:
                 self.cursor.callproc(procedure_name, params)
 
-            result = [row for row in self.cursor]
+            row_headers = [rowh[0].lower() for rowh in self.cursor.description]
+            rows = [row for row in self.cursor]
+            result = []
+            for row in rows:
+                result.append(dict(zip(row_headers, row)))
 
             if with_commit:
                 self.conn.commit()

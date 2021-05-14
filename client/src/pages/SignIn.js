@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useCallback } from 'react';
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { set } from '../modules/message';
 
 import Input from '../components/Input';
 import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
-import useInputs from '../utils/hooks/useInputs';
+import useInputs from '../hooks/useInputs';
 import Message from '../components/Message';
 
 const SignIn = ({history}) => {
@@ -13,27 +15,29 @@ const SignIn = ({history}) => {
         username: '',
         password: ''
     });
-    const [message, setMessage] = useState({content: 'something', type: '', show: false});
+    const {content, type, show} = useSelector(state => state.message);
+    const dispatch = useDispatch();
+    const setMessage = useCallback((content, type, show) => dispatch(set(content, type, show)), [dispatch]);
     
     const handleSubmit = async (event) => {
         event.preventDefault();
         
-        setMessage({content: 'Waiting for the server to respond...', type: 'is-warning', show: true});
+        setMessage('Waiting for the server to respond...', 'is-warning', true);
         try {
             const response = await axios.post('/auth/signin', JSON.stringify(state))
             if (response.status === 200) {
-                setMessage({content: response.data.msg, type: 'is-success', show: true});
+                setMessage(response.data.msg, 'is-success', true);
                 history.push('/');
             }
             
         } catch(e) {
-            setMessage({content: e.response.data.msg, type: 'is-danger', show: true});
+            setMessage(e.response.data.msg, 'is-danger', true);
         }
     }
     
     return(
         <>
-            <Message content={message.content} type={message.type} show={message.show}/>
+            <Message content={content} type={type} show={show}/>
             <AuthForm height="30%" handleSubmit={handleSubmit}>
                 <Input icon={faUser} iconPosition="has-icons-left" placeholder="Username" type="text" name="username" value={state.username} onChange={onChange}/>
                 <Input icon={faLock} iconPosition="has-icons-left" placeholder="Password" type="password" name="password" onChange={onChange}/>

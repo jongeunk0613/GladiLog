@@ -1,4 +1,4 @@
-from flask import request, jsonify, make_response, redirect
+from flask import request, jsonify, redirect
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token, set_access_cookies, create_refresh_token, jwt_required, unset_jwt_cookies, decode_token # current_user, get_jwt_identity
 import MySQLdb
@@ -20,7 +20,10 @@ def expired_token_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     db = DatabaseConnection()
     user = db.call_procedure('GetUserWithUsername', [identity])[0]
-    rfsh_token = decode_token(user['refresh_token'])
+    try:
+        decode_token(user['refresh_token'])
+    except Exception:
+        return jsonify({'msg': 'Session expired. Login Again.'}), 401
     access_token = create_access_token(identity=user['username'])
     resp = jsonify({'success': True})
     set_access_cookies(resp, access_token)

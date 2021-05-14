@@ -14,7 +14,7 @@ const SignUp = ({history}) => {
         email: '',
         username: '',
         password: ''
-    })
+    });
     const [message, setMessage] = useState({content: 'something', type: '', show: false});
     
     const handleSubmit = async (event) => {

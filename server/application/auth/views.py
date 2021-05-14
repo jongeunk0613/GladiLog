@@ -36,7 +36,7 @@ def signup():
         try:
             data = request.get_json(force=True)
             if not data.get('email') or not data.get('username') or not data.get('password'):
-                return jsonify({'msg': 'One of the fields is missing.'}), 400
+                return jsonify({'msg': 'There are missing fields. '}), 400
 
             db = DatabaseConnection()
             if db.call_procedure('GetUserWithEmail', [data.get('email')]):
@@ -57,7 +57,7 @@ def signin():
         try:
             data = request.get_json(force=True)
             if not data.get('username') or not data.get('password'):
-                return jsonify({'msg': 'One of the fields is missing.'}), 400
+                return jsonify({'msg': 'There are missing fields. '}), 400
 
             db = DatabaseConnection()
             result = db.call_procedure('GetUserWithUsername', [data.get('username')])

@@ -32,7 +32,6 @@ def signup():
     if request.method == 'POST':
         try:
             data = request.get_json(force=True)
-            print(data)
             if not data.get('email') or not data.get('username') or not data.get('password'):
                 return jsonify({'msg': 'One of the fields is missing.'}), 400
 
@@ -47,16 +46,23 @@ def signup():
             return ({'msg': 'Account created. Redirecting to login page...'}), 201
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             raise e
-            return jsonify(e), 500
 
 
 @auth.route('/signin', methods=['POST'])
 def signin():
     if request.method == 'POST':
         try:
-            db = DatabaseConnection()
             data = request.get_json(force=True)
-            user = db.call_procedure('GetUserWithUsername', [data.get('username')])[0]
+            if not data.get('username') or not data.get('password'):
+                return jsonify({'msg': 'One of the fields is missing.'}), 400
+
+            db = DatabaseConnection()
+            result = db.call_procedure('GetUserWithUsername', [data.get('username')])
+
+            if not result:
+                return jsonify({'msg': 'An account with the given username does not exist.'}), 400
+
+            user = result[0]
 
             if check_password_hash(user['password_hash'], data.get('password')):
                 access_token = create_access_token(identity=user['username'])
@@ -66,9 +72,7 @@ def signin():
                 set_access_cookies(resp, access_token)
                 return resp, 200
             else:
-                return "BAD"
-
-            return "SIGNIN"
+                return jsonify({'msg': 'Incorrect password. Try again'}), 400
         except Exception as e:
             raise e
 

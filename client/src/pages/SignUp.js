@@ -23,7 +23,8 @@ const SignUp = ({history}) => {
         setMessage({content: 'Waiting for the server to respond...', type: 'is-warning', show: true});
         try {
             const response = await axios.post('/auth/signup', JSON.stringify(state))
-            if (response.status === 200) {
+            console.log(response)
+            if (response.status === 201) {
                 setMessage({content: response.data.msg, type: 'is-success', show: true});
                 setTimeout(() => {
                     history.push('/auth/signin');

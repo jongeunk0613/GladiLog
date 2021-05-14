@@ -5,7 +5,7 @@ import axios from 'axios';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
-import useInputs from '../utils/hooks/useInputs';
+import useInputs from '../hooks/useInputs';
 import Message from '../components/Message';
 
 const SignIn = ({history}) => {

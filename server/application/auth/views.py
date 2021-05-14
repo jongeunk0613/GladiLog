@@ -32,6 +32,7 @@ def signup():
     if request.method == 'POST':
         try:
             data = request.get_json(force=True)
+            print(data)
             if not data.get('email') or not data.get('username') or not data.get('password'):
                 return jsonify({'msg': 'One of the fields is missing.'}), 400
 
@@ -41,11 +42,12 @@ def signup():
 
             if db.call_procedure('GetUserWithUsername', [data.get('username')]):
                 return jsonify({'msg': 'Username has already been taken.'}), 400
-            
+
             db.call_procedure('CreateUser', [data.get('email'), data.get('username'), generate_password_hash(data.get('password'))], True)
+            return ({'msg': 'Account created. Redirecting to login page...'}), 200
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             raise e
-        return jsonify({'success': True})
+            return jsonify(e), 500
 
 
 @auth.route('/signin', methods=['POST'])

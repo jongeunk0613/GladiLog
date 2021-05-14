@@ -44,7 +44,7 @@ def signup():
                 return jsonify({'msg': 'Username has already been taken.'}), 400
 
             db.call_procedure('CreateUser', [data.get('email'), data.get('username'), generate_password_hash(data.get('password'))], True)
-            return ({'msg': 'Account created. Redirecting to login page...'}), 200
+            return ({'msg': 'Account created. Redirecting to login page...'}), 201
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             raise e
             return jsonify(e), 500

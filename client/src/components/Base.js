@@ -3,7 +3,7 @@ import NavBar from './NavBar';
 import styled from 'styled-components';
 
 const BodyContainer = styled.div`
-    padding: 2rem;
+    padding: 2rem 4rem 0rem 4rem;
 `;
 
 const Base = ({children}) => {

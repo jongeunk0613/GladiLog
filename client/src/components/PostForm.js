@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 
-const FormContainer = styled.div`
+const FormContainer = styled.form`
     height: 80vh;
 `;
 
@@ -43,11 +43,11 @@ const Footer = styled.footer`
     }
 `
 
-const PostForm = ({title, value, body, submitButtonName}) => {
+const PostForm = ({title, value, body, submitButtonName, onChange, handleSubmit}) => {
     return (
-        <FormContainer>
-            <TitleInput placeholder={title} value={value}/>
-            <TextInput>{body}</TextInput>
+        <FormContainer onSubmit={handleSubmit}>
+            <TitleInput name="title" placeholder={title} value={value} onChange={onChange}/>
+            <TextInput name="body" onChange={onChange}>{body}</TextInput>
             <Footer>
                 <div>
                     <Button color="is-info" content={submitButtonName}/> 

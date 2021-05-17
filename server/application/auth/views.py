@@ -85,3 +85,8 @@ def signout():
     resp = jsonify({'success': True})
     unset_jwt_cookies(resp)
     return resp
+
+@auth.route('/protected')
+@jwt_required()
+def protected():
+    return jsonify({'success': True}), 200

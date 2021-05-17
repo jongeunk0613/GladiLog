@@ -51,7 +51,7 @@ const PostForm = ({title, value, body, submitButtonName, onChange, handleSubmit,
             <Footer>
                 <div>
                     <Button color="is-info" content={submitButtonName}/> 
-                    <Button color="is-white" content="취소" onClick={() => history.goBack()}/>
+                    <Button color="is-white" content="Cancel" onClick={() => history.goBack()}/>
                 </div>
             </Footer>
         </FormContainer>

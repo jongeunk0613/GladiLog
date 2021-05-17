@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_jwt_extended import create_access_token, set_access_cookies, create_refresh_token, jwt_required, unset_jwt_cookies, decode_token  # current_user, get_jwt_identity
+from flask_jwt_extended import create_access_token, set_access_cookies, create_refresh_token, jwt_required, unset_jwt_cookies, decode_token, current_user  #, get_jwt_identity
 import MySQLdb
 from . import auth
 from ..db.mysql_connection import DatabaseConnection
@@ -89,4 +89,5 @@ def signout():
 @auth.route('/protected')
 @jwt_required()
 def protected():
+    print(current_user.get('id'))
     return jsonify({'success': True}), 200

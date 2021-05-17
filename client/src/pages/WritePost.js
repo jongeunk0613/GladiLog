@@ -25,7 +25,7 @@ const WritePost = ({history}) => {
     }
 
     return (
-        <PostForm title="제목을 입력하세요" submitButtonName="완료" onChange={onChange} handleSubmit={handleSubmit}/>
+        <PostForm title="제목을 입력하세요" submitButtonName="완료" onChange={onChange} handleSubmit={handleSubmit} history={history}/>
     )
 }
 

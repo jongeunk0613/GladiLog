@@ -13,7 +13,7 @@ const TitleInput = styled.input`
     border: none;
     border-bottom: 1px solid #CDCDCD;
     margin-bottom: 1rem;
-    width: 100%;    
+    width: 100%;
 `;
 
 const TextInput = styled.textarea`
@@ -43,15 +43,15 @@ const Footer = styled.footer`
     }
 `
 
-const PostForm = ({title, value, body, submitButtonName, onChange, handleSubmit}) => {
+const PostForm = ({title, value, body, submitButtonName, onChange, handleSubmit, history}) => {
     return (
         <FormContainer onSubmit={handleSubmit}>
-            <TitleInput name="title" placeholder={title} value={value} onChange={onChange}/>
-            <TextInput name="body" onChange={onChange}>{body}</TextInput>
+            <TitleInput name="title" placeholder={title} value={value} onChange={onChange} required/>
+            <TextInput name="body" onChange={onChange} required>{body}</TextInput>
             <Footer>
                 <div>
                     <Button color="is-info" content={submitButtonName}/> 
-                    <Button color="is-white" content="취소"/>
+                    <Button color="is-white" content="취소" onClick={() => history.goBack()}/>
                 </div>
             </Footer>
         </FormContainer>

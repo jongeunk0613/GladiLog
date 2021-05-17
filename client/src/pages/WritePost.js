@@ -4,7 +4,7 @@ import PostForm from '../components/PostForm';
 import * as api from '../lib/api';
 import useInputs from '../hooks/useInputs';
 
-const WritePost = () => {
+const WritePost = ({history}) => {
     const [state, onChange] = useInputs({
         title: '',
         body: ''
@@ -15,7 +15,10 @@ const WritePost = () => {
 
         try {
             const response = await api.writePost(JSON.stringify(state));
-            console.log(response);
+            
+            if (response.status === 201) {
+                history.push('/');
+            }
         } catch(e) {
 
         }

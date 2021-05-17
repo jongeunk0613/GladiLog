@@ -1,4 +1,6 @@
 import axios from 'axios';
+axios.defaults.withCredentials = true
 
-export const signup = async (body) => await axios.post('/auth/signup', body);
-export const signin = async (body) => await axios.post('/auth/signin', body);
+export const signup = async (data) => await axios.post('/auth/signup', data);
+export const signin = async (data) => await axios.post('/auth/signin', data);
+export const writePost = async (data) => await axios.post('/post/write', data);

@@ -11,8 +11,8 @@ class Config:
     JWT_COOKIE_SECURE = os.getenv('JWT_COOKIE_SECURE').lower() in ('true', '1', 't')# true on production
     JWT_ACCESS_COOKIE_PATH = os.getenv('JWT_ACCESS_COOKIE_PATH') or '/'
     JWT_COOKIE_CSRF_PROTECT = True
-    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(seconds=10)
-    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(seconds=30)
+    JWT_ACCESS_TOKEN_EXPIRES = datetime.timedelta(hours=1)
+    JWT_REFRESH_TOKEN_EXPIRES = datetime.timedelta(days=1)
 
     MYSQL_HOST = os.getenv('DB_HOST')
     MYSQL_USER = os.getenv('DB_USERNAME')

@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { set } from '../modules/message';
 
+import * as api from '../lib/api';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
@@ -24,7 +24,7 @@ const SignIn = ({history}) => {
         
         setMessage('Waiting for the server to respond...', 'is-warning', true);
         try {
-            const response = await axios.post('/auth/signin', JSON.stringify(state))
+            const response = await api.signin(JSON.stringify(state));
             if (response.status === 200) {
                 setMessage(response.data.msg, 'is-success', true);
                 history.push('/');

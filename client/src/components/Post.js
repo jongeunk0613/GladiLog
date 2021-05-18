@@ -3,8 +3,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
     height: 14rem;
-    padding: 1rem;
-    margin-top: 1rem;
+    padding: 1rem 1rem 2rem 1rem;
 `;
 
 const Top = styled.div`

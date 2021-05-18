@@ -4,10 +4,9 @@ import Post from '../components/Post';
 const PostList = ({posts}) => {
     return (
         <>
-            {posts && posts.map((post) => <Post post={post} key={post.id} />)}
-            {!posts && 
-                <div>EMPTY</div>
-            }
+            {posts.length > 0 ?
+                 posts && posts.map((post) => <Post post={post} key={post.id} />) : 
+                 <div>EMPTY</div>}
         </>
     )
 }

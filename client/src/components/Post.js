@@ -29,7 +29,6 @@ const Body = styled.div`
 `;
 
 const Post = ({post}) => {
-    console.log(post.body.replace(/\s\s+/g, ' '))
     return (
         <Container>
             <Top>

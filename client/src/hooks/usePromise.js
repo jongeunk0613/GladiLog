@@ -10,7 +10,7 @@ export default function usePromise(promiseCreator, deps) {
             setLoading(true);
             try{
                 const resolved = await promiseCreator();
-                setResolved(resolved);
+                setResolved(resolved.data.data);
             } catch (e) {
                 setError(e);
             }

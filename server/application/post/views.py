@@ -11,11 +11,20 @@ def protected():
             data = request.get_json(force=True)
             if not data.get('title') or not data.get('body'):
                 return jsonify({'msg': 'There are missing fields. '}), 400
-            
+
             db = DatabaseConnection()
             db.call_procedure('CreatePost', [data.get('title'), data.get('body'), current_user.get('id')], True)
-            return ({'msg': 'Post successfully created'}), 201
+            return jsonify({'msg': 'Post successfully created'}), 201
         except Exception as e:
             raise e
-    
+
     return jsonify({'success': True}), 200
+
+@post.route('/')
+def showPosts():
+    try:
+        db = DatabaseConnection()
+        posts = db.call_procedure('GetPosts')
+        return jsonify({'data': posts})
+    except Exception as e:
+        raise e

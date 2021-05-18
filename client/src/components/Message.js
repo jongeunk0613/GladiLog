@@ -10,7 +10,6 @@ const MessagePosition = styled.div`
 const MessageContainer = styled.div`
     width: 40%;
     height: 100%;
-    padding: 1.5rem;
 `;
 
 const Message = ({content, type, show}) => {

@@ -36,7 +36,7 @@ class DatabaseConnection():
         except BaseException as e:
             raise e
 
-    def call_procedure(self, procedure_name, params, with_commit=False):
+    def call_procedure(self, procedure_name, params=None, with_commit=False):
         try:
             self.open()
 

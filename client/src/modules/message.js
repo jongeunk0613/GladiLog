@@ -16,7 +16,7 @@ export const toggle = (show) => ({
 })
 
 const initialState = {
-    content: '',
+    content: 'something',
     type: '',
     show: false
 }

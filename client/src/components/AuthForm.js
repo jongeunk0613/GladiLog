@@ -5,7 +5,7 @@ const FormContainer = styled.div`
     display: flex;
     justify-content: center;
     height: 80vh;
-    margin-top: 5rem;
+    margin-top: 4rem;
 `
 
 const StyledAuthForm = styled.form`

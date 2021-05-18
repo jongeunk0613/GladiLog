@@ -5,6 +5,15 @@ import * as api from '../lib/api';
 import PostList from '../components/PostList';
 import usePromise from '../hooks/usePromise';
 
+const PostHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    padding: 0rem 0.5rem 0rem 0.5rem;
+`;
+
+const HR = styled.hr`
+    margin: 0;
+`;
 
 const Main = () => {
     const [loading, posts, error] = usePromise(() => api.getPosts(), []);
@@ -15,6 +24,11 @@ const Main = () => {
     
     return (
         <>
+            <PostHeader>
+                <p></p>
+                <p>Total : {posts ? posts.length : 0}</p>
+            </PostHeader>
+            <HR/>
             {posts && <PostList posts={posts}/>}
         </>
     )

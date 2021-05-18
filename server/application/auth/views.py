@@ -5,6 +5,7 @@ import MySQLdb
 from . import auth
 from ..db.mysql_connection import DatabaseConnection
 from .. import jwt
+import re
 
 
 @jwt.user_lookup_loader
@@ -37,6 +38,18 @@ def signup():
             data = request.get_json(force=True)
             if not data.get('email') or not data.get('username') or not data.get('password'):
                 return jsonify({'msg': 'There are missing fields. '}), 400
+
+            if not re.match("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$", data.get('email')):
+                return jsonify({'msg': 'Incorrect email format.'}), 400
+
+            if not re.match("^(?!\s*$).+", data.get('username')):
+                return jsonify({'msg': 'Username cannot be whitespace.'}), 400
+
+            if not re.match("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", data.get('password')):
+                return jsonify({'msg': 'Password must be longer then 8 and contain letters, numbers and special characters.'}), 400
+
+            if not data.get('password') == data.get('password2'):
+                return jsonify({'msg': 'The two passwords does not match.'}), 400
 
             db = DatabaseConnection()
             if db.call_procedure('GetUserWithEmail', [data.get('email')]):

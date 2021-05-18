@@ -15,7 +15,7 @@ const HR = styled.hr`
     margin: 0;
 `;
 
-const Main = () => {
+const Main = ({history}) => {
     const [loading, posts, error] = usePromise(() => api.getPosts(), []);
 
     if (loading) {
@@ -29,7 +29,7 @@ const Main = () => {
                 <p>Total : {posts ? posts.length : 0}</p>
             </PostHeader>
             <HR/>
-            {posts && <PostList posts={posts}/>}
+            {posts && <PostList posts={posts} history={history}/>}
         </>
     )
 }

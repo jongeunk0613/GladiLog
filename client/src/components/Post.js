@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const Container = styled.div`
     height: 14rem;
     padding: 1rem 1rem 2rem 1rem;
+    cursor: pointer;
 `;
 
 const Top = styled.div`
@@ -27,9 +28,13 @@ const Body = styled.div`
     overflow: hidden;
 `;
 
-const Post = ({post}) => {
+const Post = ({post, history}) => {
+    const onClick = () => {
+        history.push(`/post/${post.id}`)
+    }
+    
     return (
-        <Container>
+        <Container onClick={onClick}>
             <Top>
                 <Title>{post.title}</Title>
                 <Date>{post.created}</Date>

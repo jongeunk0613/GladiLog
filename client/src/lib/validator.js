@@ -4,18 +4,18 @@ const regExp = {
     notEmpty: /^(?!\s*$).+/,
 };
 
-export const email = (maybeEmail) => {
+export const isEmail = (maybeEmail) => {
   return regExp.email.test(maybeEmail);
 };
 
-export const password = (maybePassword) => {
+export const isPassword = (maybePassword) => {
   return regExp.password.test(maybePassword);
 };
 
-export const password2 = (password1, password2) => {
+export const isCheckPassword = (password1, password2) => {
     return password1 === password2;
 }
 
-export const notEmpty = (maybeNotEmpty) => {
+export const isNotEmpty = (maybeNotEmpty) => {
   return regExp.notEmpty.test(maybeNotEmpty);
 }

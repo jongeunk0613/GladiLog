@@ -1,44 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import * as api from '../lib/api';
 import PostList from '../components/PostList';
+import usePromise from '../hooks/usePromise';
 
-const posts = [
-    {
-        id: 1,
-        title: 'TITLE 1',
-        body: 'hello everybody nice to mice youuu. I am making a blog application using flask and react. It is my first time using these frameworks. ',
-        created: '2021/02/32',
-    },
-    {
-        id: 2,
-        title: 'TITLE 2',
-        body: 'BODY 2',
-        created: '2021/02/32',
-    },
-    {
-        id: 3,
-        title: 'TITLE 3',
-        body: 'BODY 3',
-        created: '2021/02/32',
-    },{
-        id: 4,
-        title: 'TITLE 2',
-        body: 'BODY 2',
-        created: '2021/02/32',
-    },
-    {
-        id: 5,
-        title: 'TITLE 3',
-        body: 'BODY 3',
-        created: '2021/02/32',
-    }
-];
 
 const Main = () => {
+    const [loading, posts, error] = usePromise(() => api.getPosts(), []);
+
+    if (loading) {
+        return <h1>LOADING</h1>
+    }
+    
     return (
         <>
-            <PostList posts={posts}/>
+            {posts && <PostList posts={posts}/>}
         </>
     )
 }

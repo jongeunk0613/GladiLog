@@ -17,15 +17,19 @@ const WritePost = ({history}) => {
             const response = await api.writePost(JSON.stringify(state));
             
             if (response.status === 201) {
-                history.push('/');
+                history.push(`/post/${response.data.newPostID}`);
             }
         } catch(e) {
-
+            console.log(e);
         }
+    }
+    
+    const handleCancel = () => {
+        history.goBack();
     }
 
     return (
-        <PostForm title="Post Title" submitButtonName="Submit" onChange={onChange} handleSubmit={handleSubmit} history={history}/>
+        <PostForm title="Post Title" submitButtonName="Submit" onChange={onChange} handleSubmit={handleSubmit} handleCancel={handleCancel}/>
     )
 }
 

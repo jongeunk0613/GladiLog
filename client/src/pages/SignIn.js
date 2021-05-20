@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { set } from '../modules/message';
+import { setUsername } from '../modules/user';
 
 import * as api from '../lib/api';
 import Input from '../components/Input';
@@ -57,6 +58,7 @@ const SignIn = ({history}) => {
             const response = await api.signin(JSON.stringify(state));
             if (response.status === 200) {
                 setMessage(response.data.msg, 'is-success', true);
+                dispatch(setUsername(response.data.username));
                 history.push('/');
             }
             

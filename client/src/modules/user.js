@@ -1,7 +1,7 @@
-const SET = 'user/SET';
+const SET_USERNAME = 'user/SET_USERNAME';
 
-export const set = (username) => ({
-    type: SET,
+export const setUsername = (username) => ({
+    type: SET_USERNAME,
     username
 })
 
@@ -11,7 +11,7 @@ const initialState = {
 
 const user = (state = initialState, action) => {
     switch(action.type) {
-        case SET:
+        case SET_USERNAME:
             return {
                 ...state,
                 username: action.username

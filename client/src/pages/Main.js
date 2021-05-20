@@ -22,6 +22,10 @@ const Main = ({history}) => {
         return <h1>LOADING</h1>
     }
     
+    if (error) {
+        return <p>{error}</p>
+    }
+    
     return (
         <>
             <PostHeader>

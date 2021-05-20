@@ -43,15 +43,15 @@ const Footer = styled.footer`
     }
 `
 
-const PostForm = ({title, value, body, submitButtonName, onChange, handleSubmit, history}) => {
+const PostForm = ({title, value, body, submitButtonName, onChange, handleSubmit, handleCancel}) => {
     return (
         <FormContainer onSubmit={handleSubmit}>
             <TitleInput name="title" placeholder={title} value={value} onChange={onChange} required/>
-            <TextInput name="body" onChange={onChange} required>{body}</TextInput>
+            <TextInput name="body" value={body} onChange={onChange} required />
             <Footer>
                 <div>
                     <Button color="is-info" content={submitButtonName}/> 
-                    <Button color="is-white" content="Cancel" onClick={() => history.goBack()}/>
+                    <Button color="is-white" content="Cancel" onClick={handleCancel}/>
                 </div>
             </Footer>
         </FormContainer>

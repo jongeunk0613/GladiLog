@@ -1,0 +1,13 @@
+DELIMITER $$
+
+CREATE PROCEDURE GetPostlastIndex()
+BEGIN
+    SELECT ID 
+    FROM TB_POST
+    ORDER BY ID DESC
+    LIMIT 1;
+END $$
+
+DELIMITER ;
+
+

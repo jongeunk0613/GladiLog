@@ -1,49 +1,65 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Container = styled.div`
-    height: 14rem;
-    padding: 1rem 1rem 2rem 1rem;
-    cursor: pointer;
+const PostContainer = styled.div`
+    display: flex;
+    flex-direction: column;
 `;
 
-const Top = styled.div`
+const Header = styled.div`
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    text-align: left;
+    border-bottom: 1px solid #CDCDCD;
+    padding-bottom: 0.5rem;
 `;
 
 const Title = styled.div`
-    font-weight: bold;
     font-size: 1.5rem;
+    font-weight: bold;
 `;
 
-const Date = styled.div`
+const VerticalLine = styled.div`
+    border-right: 1px solid grey;
+`;
 
+const Info = styled.div`
+    display: flex;
+    font-size: 1rem;
+    color: grey;
+
+    & > div {
+        margin: 0.25rem;
+    }
+
+    & > div:nth-child(n+5), div:nth-child(n+7){
+        cursor: pointer;
+    }
 `;
 
 const Body = styled.div`
-    height: 85%;
-    text-align: justify;
-    word-wrap: break-word;
-    overflow: hidden;
+    padding-top: 1rem;
+    text-align: left;
+    white-space:pre-wrap;
 `;
 
-const Post = ({post, history}) => {
-    const onClick = () => {
-        history.push(`/post/${post.id}`)
-    }
+const Post = ({post, handleEdit, handleCancel}) => {
     
     return (
-        <Container onClick={onClick}>
-            <Top>
+        <PostContainer>
+            <Header>
                 <Title>{post.title}</Title>
-                <Date>{post.created}</Date>
-            </Top>
+                <Info>
+                    <div>{post.username}</div><VerticalLine/>
+                    <div>{post.created}</div><VerticalLine/>
+                    <div className="post_button" onClick={handleEdit}>수정</div><VerticalLine/>
+                    <div className="pots_button" onClick={handleCancel}>삭제</div>
+                </Info>
+            </Header>
             <Body>
-                {post.body.replace(/\s\s+/g, ' ')}
+                 {post.body}
             </Body>
-            <hr/>
-        </Container>
+        </PostContainer>
     );
 }
 

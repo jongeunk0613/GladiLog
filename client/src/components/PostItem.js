@@ -26,6 +26,7 @@ const Body = styled.div`
     text-align: justify;
     word-wrap: break-word;
     overflow: hidden;
+    white-space: normal;
 `;
 
 const PostItem = ({post, history}) => {
@@ -40,7 +41,7 @@ const PostItem = ({post, history}) => {
                 <Date>{post.created}</Date>
             </Top>
             <Body>
-                {post.body.replace(/\s\s+/g, ' ')}
+                {post.body}
             </Body>
             <hr/>
         </Container>

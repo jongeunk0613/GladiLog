@@ -93,11 +93,11 @@ def signin():
             raise e
 
 
-@auth.route('/logout')
+@auth.route('/logout', methods=['POST'])
 def signout():
     resp = jsonify({'success': True})
     unset_jwt_cookies(resp)
-    return resp
+    return resp, 200
 
 @auth.route('/protected')
 @jwt_required()

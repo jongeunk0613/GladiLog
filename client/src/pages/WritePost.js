@@ -17,7 +17,7 @@ const WritePost = ({history}) => {
             const response = await api.writePost(JSON.stringify(state));
             
             if (response.status === 201) {
-                history.push('/');
+                history.push(`/post/${response.data.newPostID}`);
             }
         } catch(e) {
 

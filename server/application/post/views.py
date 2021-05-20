@@ -15,7 +15,8 @@ def protected():
 
             db = DatabaseConnection()
             db.call_procedure('CreatePost', [data.get('title'), data.get('body'), current_user.get('id')], True)
-            return jsonify({'msg': 'Post successfully created'}), 201
+            newPostID = db.call_procedure('GetPostLastIndex')[0]
+            return jsonify({'msg': 'Post successfully created', 'newPostID': newPostID.get('id')}), 201
         except Exception as e:
             raise e
 

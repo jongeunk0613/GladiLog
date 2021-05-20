@@ -5,7 +5,7 @@ import SignUp from './pages/SignUp';
 import Main from './pages/Main';
 import WritePost from './pages/WritePost';
 import Base from './components/Base';
-import Post from './pages/Post';
+import PostDetail from './pages/PostDetail';
 import './App.css';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
                 <Route path="/auth/signup" exact component={SignUp} />
                 <Route path="/auth/signin" exact component={SignIn} />
                 <Route path="/post/write" exact component={WritePost} />
-                <Route path="/post/:id" exact component={Post} />
+                <Route path="/post/:id" exact component={PostDetail} />
             </Switch>
         </Base>
     </div>

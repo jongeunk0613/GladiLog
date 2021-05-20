@@ -40,6 +40,7 @@ const Info = styled.div`
 const Body = styled.div`
     padding-top: 1rem;
     text-align: left;
+    white-space:pre-wrap;
 `;
 
 const Post = ({post}) => {

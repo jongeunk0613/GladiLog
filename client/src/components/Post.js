@@ -43,7 +43,7 @@ const Body = styled.div`
     white-space:pre-wrap;
 `;
 
-const Post = ({post, onDelete}) => {
+const Post = ({post, handleEdit, handleCancel}) => {
     
     return (
         <PostContainer>
@@ -52,8 +52,8 @@ const Post = ({post, onDelete}) => {
                 <Info>
                     <div>{post.username}</div><VerticalLine/>
                     <div>{post.created}</div><VerticalLine/>
-                    <div className="post_button" >수정</div><VerticalLine/>
-                    <div className="pots_button" onClick={onDelete}>삭제</div>
+                    <div className="post_button" onClick={handleEdit}>수정</div><VerticalLine/>
+                    <div className="pots_button" onClick={handleCancel}>삭제</div>
                 </Info>
             </Header>
             <Body>

@@ -10,7 +10,7 @@ const PostDetail = ({history}) => {
     const { id } = useParams();
     const [loading, post, error] = usePromise(() => api.getPost(id), []);
     
-    const onDelete = async () => {
+    const handleCancel = async () => {
         try {
             const response = await api.deletePost(id);
 
@@ -18,8 +18,12 @@ const PostDetail = ({history}) => {
                 history.push('/');
             }
         } catch (e){
-            console.log(e)
+            console.log(e);
         }
+    }
+    
+    const handleEdit = async () => {
+        history.push(`/post/edit/${id}`);
     }
     
     if (loading) {
@@ -32,7 +36,7 @@ const PostDetail = ({history}) => {
     
     return (
         <>
-            {post && <Post post={post} onDelete={onDelete}/>}
+            {post && <Post post={post} handleEdit={handleEdit} handleCancel={handleCancel}/>}
         </>
     );
 }

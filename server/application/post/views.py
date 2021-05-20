@@ -3,6 +3,7 @@ from . import post
 from flask_jwt_extended import jwt_required, current_user
 from ..db.mysql_connection import DatabaseConnection
 
+
 @post.route('/write', methods=['POST'])
 @jwt_required()
 def protected():
@@ -20,6 +21,7 @@ def protected():
 
     return jsonify({'success': True}), 200
 
+
 @post.route('/')
 def showPosts():
     try:
@@ -28,3 +30,20 @@ def showPosts():
         return jsonify({'data': posts})
     except Exception as e:
         raise e
+
+
+@post.route('/<int:id>')
+def getPost(id):
+    try:
+        db = DatabaseConnection()
+        result = db.call_procedure('GetPost', [id])
+
+        if not result:
+            return jsonify({'msg': 'No post with the given id.'}), 400
+
+        post = result[0]
+
+        return jsonify({'post': post}), 200
+    except Exception as e:
+        raise e
+

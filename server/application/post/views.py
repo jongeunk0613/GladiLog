@@ -19,7 +19,7 @@ def protected():
         except Exception as e:
             raise e
 
-    return jsonify({'success': True}), 200
+    return jsonify({'success': False}), 400
 
 
 @post.route('/')
@@ -46,4 +46,16 @@ def getPost(id):
         return jsonify({'data': post}), 200
     except Exception as e:
         raise e
+
+@post.route('/delete/<int:id>', methods=['DELETE'])
+@jwt_required()
+def deletePost(id):
+    if request.method == 'DELETE':
+        try:
+            db = DatabaseConnection()
+            db.call_procedure('DeletePost', [id], True)
+            return jsonify({'msg': 'Post successfully deleted'}), 202
+        except Exception as e:
+            raise e
+    return jsonify({'success': False}), 400
 

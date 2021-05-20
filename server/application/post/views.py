@@ -60,3 +60,17 @@ def deletePost(id):
             raise e
     return jsonify({'success': False}), 400
 
+@post.route('/edit/<int:id>', methods=['PATCH'])
+@jwt_required()
+def updatePost(id):
+    if request.method == 'PATCH':
+        try:
+            data = request.get_json(force=True)
+
+            db = DatabaseConnection()
+            db.call_procedure('UpdatePost', [id, data.get('title'), data.get('body')], True)
+            return jsonify({'msg': 'Post successfully updated.'}), 200
+        except Exception as e:
+            raise e
+    return jsonify({'success': False}), 400
+

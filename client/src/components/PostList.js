@@ -1,7 +1,7 @@
 import React from 'react';
 import PostItem from '../components/PostItem';
 
-const PostList = ({posts, history}) => {
+const PostList = ({postsy}) => {
     return (
         <>
             {posts.length > 0 ?

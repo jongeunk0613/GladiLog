@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
     height: 14rem;
@@ -29,7 +30,8 @@ const Body = styled.div`
     white-space: normal;
 `;
 
-const PostItem = ({post, history}) => {
+const PostItem = ({post}) => {
+    const history = useHistory();
     const onClick = () => {
         history.push(`/post/${post.id}`)
     }

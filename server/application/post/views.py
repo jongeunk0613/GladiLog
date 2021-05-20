@@ -43,7 +43,7 @@ def getPost(id):
 
         post = result[0]
 
-        return jsonify({'post': post}), 200
+        return jsonify({'data': post}), 200
     except Exception as e:
         raise e
 

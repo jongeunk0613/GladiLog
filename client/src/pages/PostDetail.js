@@ -8,8 +8,7 @@ import Post from '../components/Post';
 
 const PostDetail = ({history}) => {
     const { id } = useParams();
-    const [loading, response, error] = usePromise(() => api.getPost(id), []);
-    const [post, setPost] = useState(null);
+    const [loading, post, error] = usePromise(() => api.getPost(id), []);
     
     if (loading) {
         return <h1> LOADING </h1>
@@ -19,12 +18,10 @@ const PostDetail = ({history}) => {
         return <p>{error}</p>
     }
     
-    if (response){
-        setPost(response.data.post);
-    }
-    
     return (
-        
+        <>
+            {post && <Post post={post} />}
+        </>
     );
 }
 

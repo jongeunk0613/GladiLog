@@ -20,7 +20,7 @@ const WritePost = ({history}) => {
                 history.push(`/post/${response.data.newPostID}`);
             }
         } catch(e) {
-
+            console.log(e);
         }
     }
     

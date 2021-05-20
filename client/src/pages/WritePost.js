@@ -23,9 +23,13 @@ const WritePost = ({history}) => {
 
         }
     }
+    
+    const handleCancel = () => {
+        history.goBack();
+    }
 
     return (
-        <PostForm title="Post Title" submitButtonName="Submit" onChange={onChange} handleSubmit={handleSubmit} history={history}/>
+        <PostForm title="Post Title" submitButtonName="Submit" onChange={onChange} handleSubmit={handleSubmit} handleCancel={handleCancel}/>
     )
 }
 

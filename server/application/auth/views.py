@@ -84,7 +84,7 @@ def signin():
                 access_token = create_access_token(identity=user['username'])
                 refresh_token = create_refresh_token(identity=user)
                 db.call_procedure('UpdateUserRefreshToken', [data.get('username'), refresh_token], True)
-                resp = jsonify({'success': True})
+                resp = jsonify({'success': True, 'username': data.get('username')})
                 set_access_cookies(resp, access_token)
                 return resp, 200
             else:

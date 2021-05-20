@@ -28,7 +28,7 @@ const Body = styled.div`
     overflow: hidden;
 `;
 
-const Post = ({post, history}) => {
+const PostItem = ({post, history}) => {
     const onClick = () => {
         history.push(`/post/${post.id}`)
     }
@@ -47,4 +47,4 @@ const Post = ({post, history}) => {
     );
 }
 
-export default Post;
+export default PostItem;

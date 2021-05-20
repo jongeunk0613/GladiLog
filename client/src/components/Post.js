@@ -43,8 +43,7 @@ const Body = styled.div`
     white-space:pre-wrap;
 `;
 
-const Post = ({post}) => {
-    console.log(post);
+const Post = ({post, onDelete}) => {
     
     return (
         <PostContainer>
@@ -53,8 +52,8 @@ const Post = ({post}) => {
                 <Info>
                     <div>{post.username}</div><VerticalLine/>
                     <div>{post.created}</div><VerticalLine/>
-                    <div className="post_button">수정</div><VerticalLine/>
-                    <div className="pots_button">삭제</div>
+                    <div className="post_button" >수정</div><VerticalLine/>
+                    <div className="pots_button" onClick={onDelete}>삭제</div>
                 </Info>
             </Header>
             <Body>

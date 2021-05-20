@@ -10,6 +10,18 @@ const PostDetail = ({history}) => {
     const { id } = useParams();
     const [loading, post, error] = usePromise(() => api.getPost(id), []);
     
+    const onDelete = async () => {
+        try {
+            const response = await api.deletePost(id);
+
+            if (response.status === 202){
+                history.push('/');
+            }
+        } catch (e){
+            console.log(e)
+        }
+    }
+    
     if (loading) {
         return <h1> LOADING </h1>
     }
@@ -20,7 +32,7 @@ const PostDetail = ({history}) => {
     
     return (
         <>
-            {post && <Post post={post} />}
+            {post && <Post post={post} onDelete={onDelete}/>}
         </>
     );
 }

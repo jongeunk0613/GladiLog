@@ -53,7 +53,7 @@ const Post = ({post, handleEdit, handleCancel}) => {
                 <Title>{post.title}</Title>
                 <Info>
                     <div>{post.username}</div><VerticalLine/>
-                    <div>{post.created}</div><VerticalLine/>
+                    <div>{(new Date(post.created)).toLocaleString()}</div><VerticalLine/>
                     {username === post.username && <>
                         <div className="post_button" onClick={handleEdit}>수정</div><VerticalLine/>
                         <div className="pots_button" onClick={handleCancel}>삭제</div> </>}

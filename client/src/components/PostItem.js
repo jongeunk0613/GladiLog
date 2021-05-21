@@ -43,7 +43,7 @@ const PostItem = ({post}) => {
     const history = useHistory();
     const onClick = () => {
         history.push(`/post/${post.id}`)
-    }
+    };
     
     return (
         <Container>
@@ -51,7 +51,7 @@ const PostItem = ({post}) => {
                 <Title onClick={onClick}>{post.title}</Title>
                 <Info>
                     <div>{post.username}</div><VerticalLine/>
-                    <div>{post.created}</div>
+                    <div>{(new Date(post.created)).toLocaleDateString()}</div>
                 </Info>
             </Top>
             <Body onClick={onClick}>

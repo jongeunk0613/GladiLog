@@ -1,10 +1,12 @@
 import React from 'react';
 import PostForm from '../components/PostForm';
+import { useHistory } from 'react-router-dom';
 
 import * as api from '../lib/api';
 import useInputs from '../hooks/useInputs';
 
-const WritePost = ({history}) => {
+const WritePost = () => {
+    const history = useHistory();
     const [state, onChange] = useInputs({
         title: '',
         body: ''

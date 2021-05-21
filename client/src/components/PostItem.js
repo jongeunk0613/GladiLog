@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
     height: 14rem;
     padding: 1rem 1rem 2rem 1rem;
-    cursor: pointer;
 `;
 
 const Top = styled.div`
@@ -15,10 +15,12 @@ const Top = styled.div`
 const Title = styled.div`
     font-weight: bold;
     font-size: 1.5rem;
+    cursor: pointer;
 `;
 
-const Date = styled.div`
-
+const Info = styled.div`
+    display: flex;
+    align-items: center;
 `;
 
 const Body = styled.div`
@@ -27,20 +29,32 @@ const Body = styled.div`
     word-wrap: break-word;
     overflow: hidden;
     white-space: normal;
+    cursor: pointer;
 `;
 
-const PostItem = ({post, history}) => {
+const VerticalLine = styled.div`
+    border-right: 1px solid grey;
+    height: 50%;
+    margin: 0.5rem;
+    color: #CDCDCD;
+`;
+
+const PostItem = ({post}) => {
+    const history = useHistory();
     const onClick = () => {
         history.push(`/post/${post.id}`)
-    }
+    };
     
     return (
-        <Container onClick={onClick}>
+        <Container>
             <Top>
-                <Title>{post.title}</Title>
-                <Date>{post.created}</Date>
+                <Title onClick={onClick}>{post.title}</Title>
+                <Info>
+                    <div>{post.username}</div><VerticalLine/>
+                    <div>{(new Date(post.created)).toLocaleDateString()}</div>
+                </Info>
             </Top>
-            <Body>
+            <Body onClick={onClick}>
                 {post.body}
             </Body>
             <hr/>

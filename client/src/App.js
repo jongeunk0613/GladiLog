@@ -7,6 +7,7 @@ import WritePost from './pages/WritePost';
 import Base from './components/Base';
 import PostDetail from './pages/PostDetail';
 import PostEdit from './pages/PostEdit';
+import Auth from './lib/Auth';
 import './App.css';
 
 function App() {
@@ -18,9 +19,9 @@ function App() {
                 <Route path="/" exact component={Main} />
                 <Route path="/auth/signup" exact component={SignUp} />
                 <Route path="/auth/signin" exact component={SignIn} />
-                <Route path="/post/write" exact component={WritePost} />
+                <Route path="/post/write" exact component={() => <Auth PageComponent={WritePost} />} />
                 <Route path="/post/:id" exact component={PostDetail} />
-                <Route path="/post/edit/:id" exact component={PostEdit} />
+                <Route path="/post/edit/:id" exact component={() => <Auth PageComponent={PostEdit} />} />
             </Switch>
         </Base>
     </div>

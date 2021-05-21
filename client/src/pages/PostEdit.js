@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import * as api from '../lib/api';
-import usePromise from '../hooks/usePromise';
 import PostForm from '../components/PostForm';
+import Modal from '../components/Modal';
 
-const PostEdit = ({history}) => {
+const PostEdit = () => {
     const { id } = useParams();
+    const history = useHistory();
+    const { username } = useSelector(state => state.user);
+    const [modal, setModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [state, setState] = useState({
@@ -20,13 +24,16 @@ const PostEdit = ({history}) => {
             try{
                 const resolved = await api.getPost(id);
                 setState(resolved.data.data);
+                if (resolved.data.data.username !== username){
+                    setModal(true);
+                }
             } catch (e) {
                 setError(e);
             }
             setLoading(false);
         };
         process();
-    }, []);
+    }, [id]);
     
     if (loading) {
         return <h1> LOADING </h1>
@@ -64,6 +71,7 @@ const PostEdit = ({history}) => {
     
     return (
         <>
+            {modal && <Modal contentTitle="Not authorized" contentBody="You cannot edit someone else's post."/>}
             {!loading && <PostForm title="Post Title" value={state.title} body={state.body} submitButtonName="Save" onChange={onChange} handleCancel={handleCancel} handleSubmit={handleSubmit}/>}
         </>
     )

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 
 const PostContainer = styled.div`
     display: flex;
@@ -44,6 +45,7 @@ const Body = styled.div`
 `;
 
 const Post = ({post, handleEdit, handleCancel}) => {
+    const { username } = useSelector(state => state.user);
     
     return (
         <PostContainer>
@@ -52,8 +54,9 @@ const Post = ({post, handleEdit, handleCancel}) => {
                 <Info>
                     <div>{post.username}</div><VerticalLine/>
                     <div>{post.created}</div><VerticalLine/>
-                    <div className="post_button" onClick={handleEdit}>수정</div><VerticalLine/>
-                    <div className="pots_button" onClick={handleCancel}>삭제</div>
+                    {username === post.username && <>
+                        <div className="post_button" onClick={handleEdit}>수정</div><VerticalLine/>
+                        <div className="pots_button" onClick={handleCancel}>삭제</div> </>}
                 </Info>
             </Header>
             <Body>

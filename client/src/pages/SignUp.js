@@ -36,7 +36,7 @@ const SignUp = ({history}) => {
                 onValid({...isValid, email: isEmail(e.target.value)});
                 break;
             case 'password':
-                onValid({...isValid, password: isPassword(e.target.value)});
+                onValid({...isValid, password: isPassword(e.target.value), password2: isCheckPassword(state.password2, e.target.value)});
                 break;
             case 'password2':
                 onValid({...isValid, password2: isCheckPassword(e.target.value, state.password)});

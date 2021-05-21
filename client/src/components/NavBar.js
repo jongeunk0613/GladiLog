@@ -35,7 +35,7 @@ const NavBar = () => {
             <div className="navbar-menu is-active">
                 <div className="navbar-end">
                     { username && 
-                        <Link className="navbar-item">
+                        <Link to="/" className="navbar-item">
                             { username}
                         </Link>
                     }

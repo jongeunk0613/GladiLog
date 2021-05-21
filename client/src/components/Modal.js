@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 
 const ModalContent = styled.div`
     display: flex;
@@ -12,15 +13,26 @@ const ModalContent = styled.div`
     white-space: pre-wrap;
 `;
 
-const Modal = ({contentTitle, contentBody, onClick }) => {
+const Modal = ({contentTitle, contentBody, url}) => {
+    const history = useHistory();
+    
+    const onClick = () => {
+        if (url) {
+            history.push(url);
+        }
+        else {
+            history.goBack();
+        }
+    }
+    
     return (
         <div className="modal is-active" onClick={onClick}>
             <div className="modal-background" />
             <div className="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">{contentTitle}</p>
+                <header className="modal-card-head">
+                    <p className="modal-card-title">{contentTitle}</p>
                 </header>
-                <section class="modal-card-body">
+                <section className="modal-card-body">
                     <ModalContent>
                         {contentBody}
                     </ModalContent>

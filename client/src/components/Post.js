@@ -39,9 +39,10 @@ const Info = styled.div`
 `;
 
 const Body = styled.div`
-    padding-top: 1rem;
+    padding: 1rem 0rem;
     text-align: left;
     white-space:pre-wrap;
+    border-bottom: 1px solid #CDCDCD;
 `;
 
 const Post = ({post, handleEdit, handleCancel}) => {

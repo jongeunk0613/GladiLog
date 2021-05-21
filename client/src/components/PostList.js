@@ -1,11 +1,11 @@
 import React from 'react';
 import PostItem from '../components/PostItem';
 
-const PostList = ({postsy}) => {
+const PostList = ({posts}) => {
     return (
         <>
             {posts.length > 0 ?
-                 posts && posts.map((post) => <PostItem post={post} key={post.id} history={history}/>) : 
+                 posts && posts.map((post) => <PostItem post={post} key={post.id}/>) : 
                  <div>EMPTY</div>}
         </>
     )

@@ -6,7 +6,7 @@ export const setUsername = (username) => ({
 })
 
 const initialState = {
-    username: ''
+    username: null
 }
 
 const user = (state = initialState, action) => {

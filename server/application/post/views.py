@@ -48,17 +48,26 @@ def getPost(id):
     except Exception as e:
         raise e
 
+
 @post.route('/delete/<int:id>', methods=['DELETE'])
 @jwt_required()
 def deletePost(id):
     if request.method == 'DELETE':
         try:
             db = DatabaseConnection()
-            db.call_procedure('DeletePost', [id], True)
-            return jsonify({'msg': 'Post successfully deleted'}), 202
+            user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
+
+            post = db.call_procedure('GetPost', [id])[0]
+            
+            if user.get('username') == post.get('username'):
+                db.call_procedure('DeletePost', [id], True)
+                return jsonify({'msg': 'Post successfully deleted'}), 202
+            else:
+                return jsonify({'msg': 'Not authorized. Only the author can delete the post.'}), 403
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400
+
 
 @post.route('/edit/<int:id>', methods=['PATCH'])
 @jwt_required()
@@ -68,7 +77,13 @@ def updatePost(id):
             data = request.get_json(force=True)
 
             db = DatabaseConnection()
-            db.call_procedure('UpdatePost', [id, data.get('title'), data.get('body')], True)
+            user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
+            post = db.call_procedure('GetPost', [id])[0]
+            
+            if user.get('username') == post.get('username'):
+                db.call_procedure('UpdatePost', [id, data.get('title'), data.get('body')], True)
+            else:
+                return jsonify({'msg': 'Not authorized. Only the author can delete the post.'}), 403
             return jsonify({'msg': 'Post successfully updated.'}), 200
         except Exception as e:
             raise e

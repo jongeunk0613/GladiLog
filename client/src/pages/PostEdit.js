@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import * as api from '../lib/api';
-import usePromise from '../hooks/usePromise';
 import PostForm from '../components/PostForm';
 
 const PostEdit = ({history}) => {
@@ -26,7 +25,7 @@ const PostEdit = ({history}) => {
             setLoading(false);
         };
         process();
-    }, []);
+    }, [id]);
     
     if (loading) {
         return <h1> LOADING </h1>

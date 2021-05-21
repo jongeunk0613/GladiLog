@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import * as api from '../lib/api';
 import PostForm from '../components/PostForm';
 
-const PostEdit = ({history}) => {
+const PostEdit = () => {
     const { id } = useParams();
+    const history = useHistory();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [state, setState] = useState({

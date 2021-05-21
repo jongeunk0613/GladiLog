@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { configure } from 'axios-hooks';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -26,16 +25,6 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = createStore(persistedReducer, composeWithDevTools());
 
 const persistor = persistStore(store);
-
-const instance = axios.create({
-    withCredentials: true,
-    headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-    }
-})
-    
-configure({ instance });
 
 ReactDOM.render(
   <React.StrictMode>

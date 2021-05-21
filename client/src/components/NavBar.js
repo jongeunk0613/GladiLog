@@ -34,6 +34,11 @@ const NavBar = () => {
             </div>
             <div className="navbar-menu is-active">
                 <div className="navbar-end">
+                    { username && 
+                        <Link className="navbar-item">
+                            { username}
+                        </Link>
+                    }
                     <Link to ="/" className="navbar-item">
                         <FontAwesomeIcon icon={faChartBar} />
                     </Link>

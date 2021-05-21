@@ -1,8 +1,13 @@
 const SET_USERNAME = 'user/SET_USERNAME';
+const CLEAR_USERNAME = 'user/CLEAR_USERNAME';
 
 export const setUsername = (username) => ({
     type: SET_USERNAME,
     username
+})
+
+export const clearUsername = () => ({
+    type: CLEAR_USERNAME
 })
 
 const initialState = {
@@ -15,6 +20,11 @@ const user = (state = initialState, action) => {
             return {
                 ...state,
                 username: action.username
+            }
+        case CLEAR_USERNAME:
+            return {
+                ...state,
+                username: null
             }
         default:
             return state;

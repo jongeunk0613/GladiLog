@@ -33,7 +33,7 @@ const PostEdit = () => {
             setLoading(false);
         };
         process();
-    }, [id]);
+    }, [id, username]);
     
     if (loading) {
         return <h1> LOADING </h1>

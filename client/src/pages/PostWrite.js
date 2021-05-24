@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import * as api from '../lib/api';
 import useInputs from '../hooks/useInputs';
 
-const WritePost = () => {
+const PostWrite = () => {
     const history = useHistory();
     const [state, onChange] = useInputs({
         title: '',
@@ -35,4 +35,4 @@ const WritePost = () => {
     )
 }
 
-export default WritePost;
+export default PostWrite;

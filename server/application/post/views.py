@@ -6,7 +6,7 @@ from ..db.mysql_connection import DatabaseConnection
 
 @post.route('/write', methods=['POST'])
 @jwt_required()
-def protected():
+def createPost():
     if request.method == 'POST':
         try:
             data = request.get_json(force=True)

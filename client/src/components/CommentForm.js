@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { useParams } from 'react-router-dom';
+
+import * as api from '../lib/api';
+import useInputs from '../hooks/useInputs';
 
 const CommentContainer = styled.form`
     margin: 1.5rem 0rem;
@@ -46,6 +50,27 @@ const Input = styled.textarea`
 `;
 
 const CommentForm = () => {
+    const { id } = useParams();
+    const [body, setBody] = useState('');
+    
+    const onChange = (event) => {
+        setBody(event.target.value);
+    }
+    
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        
+        try {
+            const response = await api.createComment(id, JSON.stringify({body}));
+            if (response.status === 201) {
+                setBody('');
+            }
+            
+        } catch(e) {
+            console.log(e);
+        }
+    }
+    
     return (
         <CommentContainer>
             <Header>
@@ -57,8 +82,8 @@ const CommentForm = () => {
                 </Buttons>
             </Header>
             <Body>
-                <Input />
-                <Button color="is-info" content="댓글달기" nowrap={true}/> 
+                <Input name="body" value={body} onChange={onChange} required/>
+                <Button color="is-info" content="댓글달기" nowrap={true} onClick={handleSubmit}/> 
             </Body>
         </CommentContainer>
     );

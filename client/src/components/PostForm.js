@@ -31,7 +31,7 @@ const Footer = styled.footer`
     left: 0px;
     background: #f2f2f2;
     width: 100vw;
-    heigth: 15vh;
+    padding: 0.75rem;
 `
 
 const Buttons = styled.div`
@@ -41,9 +41,6 @@ const Buttons = styled.div`
     div{
         display: flex;
         align-items: center;
-    }
-
-    div:nth-child(1) {
         margin-right: 1rem;
     }
 `;

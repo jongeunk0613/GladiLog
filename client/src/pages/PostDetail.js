@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import * as api from '../lib/api';
 import usePromise from '../hooks/usePromise';
 import Post from '../components/Post';
-import CommentForm from '../components/CommentForm';
+import Comment from '../components/Comment';
 
 const PostDetail = ({history}) => {
     const { id } = useParams();
@@ -47,7 +47,7 @@ const PostDetail = ({history}) => {
     return (
         <>
             {post && <Post post={post} handleEdit={handleEdit} handleCancel={handleCancel}/>}
-            <CommentForm />
+            <Comment />
         </>
     );
 }

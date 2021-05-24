@@ -1,12 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Button from './Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { useParams } from 'react-router-dom';
 
-import * as api from '../lib/api';
-import useInputs from '../hooks/useInputs';
+import Button from './Button';
 
 const CommentContainer = styled.form`
     margin: 1.5rem 0rem;
@@ -49,28 +46,7 @@ const Input = styled.textarea`
     outline: none;
 `;
 
-const CommentForm = () => {
-    const { id } = useParams();
-    const [body, setBody] = useState('');
-    
-    const onChange = (event) => {
-        setBody(event.target.value);
-    }
-    
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        
-        try {
-            const response = await api.createComment(id, JSON.stringify({body}));
-            if (response.status === 201) {
-                setBody('');
-            }
-            
-        } catch(e) {
-            console.log(e);
-        }
-    }
-    
+const CommentForm = ({body, onChange, handleSubmit}) => {
     return (
         <CommentContainer>
             <Header>

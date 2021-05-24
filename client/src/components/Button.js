@@ -18,7 +18,6 @@ const type = {
 }
 
 const ButtonContainer = styled.div`
-    
 `;
 
 const StyledButton = styled.button`
@@ -28,13 +27,13 @@ const StyledButton = styled.button`
     border-radius: 0.5rem;
     padding: 0.5rem 1rem;
     font-size: 1rem;
-    margin: 0.5rem;
+    white-space: ${props => props.nowrap? "nowrap": "normal"};
 `
 
-const Button = ({color, content, helpText, onClick}) => {
+const Button = ({color, content, helpText, onClick, nowrap = false}) => {
     return (
         <ButtonContainer>
-            <StyledButton onClick={onClick} type={color}>
+            <StyledButton onClick={onClick} type={color} nowrap={nowrap}>
                 {content}
             </StyledButton>
             {helpText && <Link to={`${helpText.toLowerCase()}`} className="help">{helpText}</Link>}

@@ -5,7 +5,7 @@ from ..db.mysql_connection import DatabaseConnection
 
 
 @comment.route('/create/<int:id>', methods=['POST'])
-@jwt_required
+@jwt_required()
 def createComment(id):
     if request.method == 'POST':
         try:

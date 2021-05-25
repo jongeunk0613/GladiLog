@@ -34,7 +34,7 @@ const Body = styled.div`
     text-align: justify;
 `;
 
-const CommentItem = ({comment, handleDelete}) => {
+const CommentItem = ({comment, handleDelete, handleEdit}) => {
     const { username } = useSelector(state => state.user);
     
     return (
@@ -42,7 +42,7 @@ const CommentItem = ({comment, handleDelete}) => {
             <Header>
                 <Author>{comment.username}</Author>
                 <div>{new Date(comment.created).toLocaleDateString()}</div>
-                {username === comment.username && <Button>수정</Button>}
+                {username === comment.username && <Button onClick={() => {handleEdit(comment.id)}}>수정</Button>}
                 {username === comment.username && <Button onClick={() => {handleDelete(comment.id, comment.username)}}>삭제</Button>}
             </Header>
             <Body>{comment.body}</Body>

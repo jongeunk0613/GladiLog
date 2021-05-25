@@ -14,6 +14,7 @@ const Comment = () => {
     const [modal, setModal] = useState(false);
     const { id } = useParams();
     const [body, setBody] = useState('');
+    const [isEdit, setEdit] = useState(false);
     const [loading, comments, error, setComments] = usePromise(() => api.getComments(id), []);
     
     const onChange = (event) => {
@@ -39,6 +40,20 @@ const Comment = () => {
         }
     }
     
+    const handleEditSubmit = async (event) => {
+        event.preventDefault();
+        
+        if (!username){
+            setModal(true);
+        }
+        
+        try {
+            // const response = await 
+        } catch(e) {
+            console.log(e);
+        }
+    }
+    
     const handleDelete = async (id, commentUsername) => {
         try {
             if (username !== commentUsername){
@@ -55,11 +70,24 @@ const Comment = () => {
         }
     }
     
+    const handleEdit = async (id) => {
+        try {
+            const response = await api.getComment(id);
+            
+            if (response.status === 200){
+                setEdit(true);
+                setBody(response.data.data.body);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    
     return (
         <>
-            {modal && <Modal contentTitle="Not authorized" contentBody="Signin required." url="/auth/signin"/>}
-            <CommentForm total={comments? comments.length : 0} body={body} onChange={onChange} handleSubmit={handleSubmit}/>
-            <CommentList comments={comments} handleDelete={handleDelete}/>
+            {modal && <Modal contentTitle="접근 제한" contentBody="로그인이 필요합니다." url="/auth/signin"/>}
+            <CommentForm total={comments? comments.length : 0} body={body} onChange={onChange} handleSubmit={handleSubmit} isEdit={isEdit}/>
+            <CommentList comments={comments} handleDelete={handleDelete} handleEdit={handleEdit}/>
         </>
     )
 }

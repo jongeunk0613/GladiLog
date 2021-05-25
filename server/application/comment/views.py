@@ -70,3 +70,24 @@ def getComment(id):
         return jsonify({'data': comment}), 200
     except Exception as e:
         raise e
+
+
+@comment.route('/edit/<int:id>', methods=['PATCH'])
+@jwt_required()
+def updateComment(id):
+    if request.method == 'PATCH':
+        try:
+            data = request.get_json(force=True)
+
+            db = DatabaseConnection()
+            user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
+            comment = db.call_procedure('GetComment', [id])[0]
+
+            if user.get('username') == comment.get('username'):
+                db.call_procedure('UpdateComment', [id, data.get('body')], True)
+            else:
+                return jsonify({'msg': '접근 제한. 해당 댓글의 작성자만 수정할 수 있습니다.'}), 403
+            return jsonify({'msg': '댓글 수정 성공'}), 200
+        except Exception as e:
+            raise e
+    return jsonify({'success': False}), 400

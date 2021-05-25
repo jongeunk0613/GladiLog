@@ -12,7 +12,7 @@ const PostDetail = ({history}) => {
     const { username } = useSelector(state => state.user);
     const [loading, post, error] = usePromise(() => api.getPost(id), []);
     
-    const handleCancel = async () => {
+    const handleDelete = async () => {
         try {
             if (username !== post.username){
                 alert("해당 게시글을 지울 수 없습니다.");
@@ -46,7 +46,7 @@ const PostDetail = ({history}) => {
     
     return (
         <>
-            {post && <Post post={post} handleEdit={handleEdit} handleCancel={handleCancel}/>}
+            {post && <Post post={post} handleEdit={handleEdit} handleDelete={handleDelete}/>}
             <Comment />
         </>
     );

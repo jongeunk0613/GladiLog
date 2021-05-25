@@ -39,11 +39,27 @@ const Comment = () => {
         }
     }
     
+    const handleDelete = async (id, commentUsername) => {
+        try {
+            if (username !== commentUsername){
+                alert("해당 댓글을 지울 수 없습니다.");
+                return;
+            }
+            const response = await api.deleteComment(id);
+
+            if (response.status === 202){
+                setComments(comments.filter(comment => comment.id != id));
+            }
+        } catch (e){
+            console.log(e);
+        }
+    }
+    
     return (
         <>
             {modal && <Modal contentTitle="Not authorized" contentBody="Signin required." url="/auth/signin"/>}
             <CommentForm total={comments? comments.length : 0} body={body} onChange={onChange} handleSubmit={handleSubmit}/>
-            <CommentList comments={comments}/>
+            <CommentList comments={comments} handleDelete={handleDelete}/>
         </>
     )
 }

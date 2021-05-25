@@ -20,14 +20,17 @@ def createComment(id):
             raise e
     return jsonify({'success': False}), 400
 
-@comment.route('/', methods=['GET'])
+
+@comment.route('/get', methods=['GET'])
 def getComments():
     try:
-        data = request.get_json(force=True)
-        if not data.get('postID'):
+        postID = request.args.get('postID')
+
+        if not postID:
             return jsonify({'msg': 'There are missing fields. '}), 400
+
         db = DatabaseConnection()
-        comments = db.call_procedure('GetComments', [data.get('postID')])
+        comments = db.call_procedure('GetComments', [postID])
         return jsonify({'data': comments})
     except Exception as e:
         raise e

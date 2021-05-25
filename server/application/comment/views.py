@@ -36,4 +36,21 @@ def getComments():
         raise e
 
 
+@comment.route('/delete/<int:id>', methods=['DELETE'])
+@jwt_required()
+def deleteComment(id):
+    if request.method == 'DELETE':
+        try:
+            db = DatabaseConnection()
+            user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
 
+            post = db.call_procedure('GetComment', [id])[0]
+
+            if user.get('username') == post.get('username'):
+                db.call_procedure('DeleteComment', [id], True)
+                return jsonify({'msg': '댓글 삭제 성공'}), 202
+            else:
+                return jsonify({'msg': '접근 제한. 해당 댓글의 작성자만 삭제할 수 있습니다.'}), 403
+        except Exception as e:
+            raise e
+    return jsonify({'success': False}), 400

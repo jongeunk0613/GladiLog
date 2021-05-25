@@ -14,7 +14,7 @@ const Comment = () => {
     const [modal, setModal] = useState(false);
     const { id } = useParams();
     const [body, setBody] = useState('');
-    const [isEdit, setEdit] = useState(false);
+    const [isEdit, setEdit] = useState({state: false, commentID: null});
     const [loading, comments, error, setComments] = usePromise(() => api.getComments(id), []);
     
     const onChange = (event) => {
@@ -40,7 +40,7 @@ const Comment = () => {
         }
     }
     
-    const handleEditSubmit = async (event) => {
+    const handleEditSubmit = async (event, isEdit, body) => {
         event.preventDefault();
         
         if (!username){
@@ -48,7 +48,16 @@ const Comment = () => {
         }
         
         try {
-            // const response = await 
+            const response = await api.updateComment(isEdit.commentID, JSON.stringify({body}));
+            
+            if (response.status !== 200) {
+                throw(response.data.msg);
+            } 
+                        
+            const response2 = await api.getComment(isEdit.commentID);
+            setBody('');
+            setEdit({status: false, commentID: null});
+            setComments(comments.map(comment => comment.id === isEdit.commentID? response2.data.data : comment));
         } catch(e) {
             console.log(e);
         }
@@ -75,7 +84,7 @@ const Comment = () => {
             const response = await api.getComment(id);
             
             if (response.status === 200){
-                setEdit(true);
+                setEdit({status: true, commentID: id});
                 setBody(response.data.data.body);
             }
         } catch (e) {
@@ -86,7 +95,7 @@ const Comment = () => {
     return (
         <>
             {modal && <Modal contentTitle="접근 제한" contentBody="로그인이 필요합니다." url="/auth/signin"/>}
-            <CommentForm total={comments? comments.length : 0} body={body} onChange={onChange} handleSubmit={handleSubmit} isEdit={isEdit}/>
+            <CommentForm total={comments? comments.length : 0} body={body} onChange={onChange} handleSubmit={handleSubmit} handleEditSubmit={handleEditSubmit} isEdit={isEdit}/>
             <CommentList comments={comments} handleDelete={handleDelete} handleEdit={handleEdit}/>
         </>
     )

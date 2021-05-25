@@ -48,7 +48,7 @@ const Input = styled.textarea`
     outline: none;
 `;
 
-const CommentForm = ({total, body, onChange, handleSubmit}) => {
+const CommentForm = ({total, body, onChange, handleSubmit, handleEditSubmit, isEdit}) => {
     const { username } = useSelector(state => state.user);
     
     return (
@@ -63,7 +63,7 @@ const CommentForm = ({total, body, onChange, handleSubmit}) => {
             </Header>
             <Body>
                 <Input name="body" value={body} onChange={onChange} disabled={username? false: true}/>
-                <Button color="is-info" content="댓글달기" nowrap={true} onClick={handleSubmit}/> 
+                <Button color="is-info" content={isEdit.status? "저장" : "댓글달기"} nowrap={true} onClick={isEdit.status? (e) => handleEditSubmit(e, isEdit, body) : handleSubmit}/> 
             </Body>
         </CommentContainer>
     );

@@ -12,3 +12,4 @@ export const updatePost = async (id, data) => await axios.patch(`/post/edit/${id
 export const createComment = async (id, data) => await axios.post(`/comment/create/${id}`, data);
 export const getComments = async (id) => await axios.get(`/comment/get?postID=${id}`);
 export const deleteComment = async (id) => await axios.delete(`/comment/delete/${id}`);
+export const getComment = async (id) => await axios.get(`/comment/${id}`);

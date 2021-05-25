@@ -6,7 +6,8 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import Button from './Button';
 
 const CommentContainer = styled.form`
-    margin: 1.5rem 0rem;
+    padding: 1.5rem 0rem 0.5rem 0rem;
+    border-bottom: 1px solid #CDCDCD;
 `;
 
 const Header = styled.header`
@@ -46,12 +47,12 @@ const Input = styled.textarea`
     outline: none;
 `;
 
-const CommentForm = ({body, onChange, handleSubmit}) => {
+const CommentForm = ({total, body, onChange, handleSubmit}) => {
     return (
         <CommentContainer>
             <Header>
                 <Title>
-                    댓글 (3)
+                    댓글 ({total})
                 </Title>
                 <Buttons>
                     <FontAwesomeIcon icon={faHeart} size="lg"/>

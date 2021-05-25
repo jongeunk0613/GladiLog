@@ -54,3 +54,19 @@ def deleteComment(id):
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400
+
+
+@comment.route('/<int:id>')
+def getComment(id):
+    try:
+        db = DatabaseConnection()
+        result = db.call_procedure('GetComment', [id])
+
+        if not result:
+            return jsonify({'msg': '입력받은 ID의 댓글이 존재하지 않습니다.'}), 400
+
+        comment = result[0]
+
+        return jsonify({'data': comment}), 200
+    except Exception as e:
+        raise e

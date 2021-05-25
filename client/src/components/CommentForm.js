@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
+import { useSelector } from 'react-redux';
 
 import Button from './Button';
 
@@ -48,6 +49,8 @@ const Input = styled.textarea`
 `;
 
 const CommentForm = ({total, body, onChange, handleSubmit}) => {
+    const { username } = useSelector(state => state.user);
+    
     return (
         <CommentContainer>
             <Header>
@@ -59,7 +62,7 @@ const CommentForm = ({total, body, onChange, handleSubmit}) => {
                 </Buttons>
             </Header>
             <Body>
-                <Input name="body" value={body} onChange={onChange} required/>
+                <Input name="body" value={body} onChange={onChange} disabled={username? false: true}/>
                 <Button color="is-info" content="댓글달기" nowrap={true} onClick={handleSubmit}/> 
             </Body>
         </CommentContainer>

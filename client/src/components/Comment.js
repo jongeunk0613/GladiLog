@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
 import CommentForm from './CommentForm';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -72,7 +71,7 @@ const Comment = () => {
             const response = await api.deleteComment(id);
 
             if (response.status === 202){
-                setComments(comments.filter(comment => comment.id != id));
+                setComments(comments.filter(comment => comment.id !== id));
             }
         } catch (e){
             console.log(e);

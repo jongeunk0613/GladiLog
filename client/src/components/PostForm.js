@@ -53,7 +53,7 @@ const PostForm = ({title, value, body, submitButtonName, onChange, handleSubmit,
             <Footer>
                 <Buttons>
                     <Button color="is-info" content={submitButtonName}/> 
-                    <Button color="is-white" content="Cancel" onClick={handleCancel}/>
+                    <Button color="is-white" content="취소" onClick={handleCancel}/>
                 </Buttons>
             </Footer>
         </FormContainer>

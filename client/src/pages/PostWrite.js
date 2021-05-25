@@ -31,7 +31,7 @@ const PostWrite = () => {
     }
 
     return (
-        <PostForm title="Post Title" submitButtonName="Submit" onChange={onChange} handleSubmit={handleSubmit} handleCancel={handleCancel}/>
+        <PostForm title="제목을 입력하세요" submitButtonName="완료" onChange={onChange} handleSubmit={handleSubmit} handleCancel={handleCancel}/>
     )
 }
 

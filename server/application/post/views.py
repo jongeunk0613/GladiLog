@@ -11,12 +11,12 @@ def createPost():
         try:
             data = request.get_json(force=True)
             if not data.get('title') or not data.get('body'):
-                return jsonify({'msg': 'There are missing fields. '}), 400
+                return jsonify({'msg': '입력되지 않은 값이 있습니다.'}), 400
 
             db = DatabaseConnection()
             db.call_procedure('CreatePost', [data.get('title'), data.get('body'), current_user.get('id')], True)
             newPostID = db.call_procedure('GetPostLastIndex')[0]
-            return jsonify({'msg': 'Post successfully created', 'newPostID': newPostID.get('id')}), 201
+            return jsonify({'msg': '게시글 작성 성공', 'newPostID': newPostID.get('id')}), 201
         except Exception as e:
             raise e
 
@@ -40,7 +40,7 @@ def getPost(id):
         result = db.call_procedure('GetPost', [id])
 
         if not result:
-            return jsonify({'msg': 'No post with the given id.'}), 400
+            return jsonify({'msg': '입력받은 ID의 게시글이 존재하지 않습니다.'}), 400
 
         post = result[0]
 
@@ -58,12 +58,12 @@ def deletePost(id):
             user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
 
             post = db.call_procedure('GetPost', [id])[0]
-            
+
             if user.get('username') == post.get('username'):
                 db.call_procedure('DeletePost', [id], True)
-                return jsonify({'msg': 'Post successfully deleted'}), 202
+                return jsonify({'msg': '게시글 삭제 성공'}), 202
             else:
-                return jsonify({'msg': 'Not authorized. Only the author can delete the post.'}), 403
+                return jsonify({'msg': '접근 제한. 해당 글의 작성자만 삭제할 수 있습니다.'}), 403
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400
@@ -79,12 +79,12 @@ def updatePost(id):
             db = DatabaseConnection()
             user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
             post = db.call_procedure('GetPost', [id])[0]
-            
+
             if user.get('username') == post.get('username'):
                 db.call_procedure('UpdatePost', [id, data.get('title'), data.get('body')], True)
             else:
-                return jsonify({'msg': 'Not authorized. Only the author can delete the post.'}), 403
-            return jsonify({'msg': 'Post successfully updated.'}), 200
+                return jsonify({'msg': '접근 제한. 해당 글의 작성자만 수정할 수 있습니다.'}), 403
+            return jsonify({'msg': '게시글 수정 성공'}), 200
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400

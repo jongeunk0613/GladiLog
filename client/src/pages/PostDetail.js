@@ -15,7 +15,7 @@ const PostDetail = ({history}) => {
     const handleCancel = async () => {
         try {
             if (username !== post.username){
-                alert("You are not allowed to delete this post.");
+                alert("해당 게시글을 지울 수 없습니다.");
                 return;
             }
             const response = await api.deletePost(id);
@@ -30,7 +30,7 @@ const PostDetail = ({history}) => {
     
     const handleEdit = async () => {
         if (username !== post.username){
-            alert("You are not allowed to edit this post.");
+            alert("해당 게시글을 수정할 수 없습니다.");
             return;
         }
         history.push(`/post/edit/${id}`);

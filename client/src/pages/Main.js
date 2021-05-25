@@ -30,7 +30,7 @@ const Main = () => {
         <>
             <PostHeader>
                 <p></p>
-                <p>Total : {posts ? posts.length : 0}</p>
+                <p>총 : {posts ? posts.length : 0}개</p>
             </PostHeader>
             <HR/>
             {posts && <PostList posts={posts}/>}

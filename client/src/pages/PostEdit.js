@@ -33,7 +33,7 @@ const PostEdit = () => {
             setLoading(false);
         };
         process();
-    }, [id]);
+    }, [id, username]);
     
     if (loading) {
         return <h1> LOADING </h1>
@@ -71,8 +71,8 @@ const PostEdit = () => {
     
     return (
         <>
-            {modal && <Modal contentTitle="Not authorized" contentBody="You cannot edit someone else's post."/>}
-            {!loading && <PostForm title="Post Title" value={state.title} body={state.body} submitButtonName="Save" onChange={onChange} handleCancel={handleCancel} handleSubmit={handleSubmit}/>}
+            {modal && <Modal contentTitle="접근 제한" contentBody="다른 사람의 글은 수정할 수 없습니다."/>}
+            {!loading && <PostForm title="제목을 입력하세요" value={state.title} body={state.body} submitButtonName="저장" onChange={onChange} handleCancel={handleCancel} handleSubmit={handleSubmit}/>}
         </>
     )
 }

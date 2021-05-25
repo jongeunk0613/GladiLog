@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import * as api from '../lib/api';
 import useInputs from '../hooks/useInputs';
 
-const WritePost = () => {
+const PostWrite = () => {
     const history = useHistory();
     const [state, onChange] = useInputs({
         title: '',
@@ -31,8 +31,8 @@ const WritePost = () => {
     }
 
     return (
-        <PostForm title="Post Title" submitButtonName="Submit" onChange={onChange} handleSubmit={handleSubmit} handleCancel={handleCancel}/>
+        <PostForm title="제목을 입력하세요" submitButtonName="완료" onChange={onChange} handleSubmit={handleSubmit} handleCancel={handleCancel}/>
     )
 }
 
-export default WritePost;
+export default PostWrite;

@@ -3,7 +3,7 @@ import { Route, Switch} from 'react-router-dom';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import Main from './pages/Main';
-import WritePost from './pages/WritePost';
+import PostWrite from './pages/PostWrite';
 import Base from './components/Base';
 import PostDetail from './pages/PostDetail';
 import PostEdit from './pages/PostEdit';
@@ -19,7 +19,7 @@ function App() {
                 <Route path="/" exact component={Main} />
                 <Route path="/auth/signup" exact component={SignUp} />
                 <Route path="/auth/signin" exact component={SignIn} />
-                <Route path="/post/write" exact component={() => <Auth PageComponent={WritePost} />} />
+                <Route path="/post/write" exact component={() => <Auth PageComponent={PostWrite} />} />
                 <Route path="/post/:id" exact component={PostDetail} />
                 <Route path="/post/edit/:id" exact component={() => <Auth PageComponent={PostEdit} />} />
             </Switch>

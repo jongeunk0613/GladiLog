@@ -19,5 +19,5 @@ export default function usePromise(promiseCreator, deps) {
         process();
     }, deps);
     
-    return [loading, resolved, error];
+    return [loading, resolved, error, setResolved];
 }

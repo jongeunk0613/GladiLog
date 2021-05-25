@@ -39,12 +39,13 @@ const Info = styled.div`
 `;
 
 const Body = styled.div`
-    padding-top: 1rem;
+    padding: 1rem 0rem;
     text-align: left;
     white-space:pre-wrap;
+    border-bottom: 1px solid #CDCDCD;
 `;
 
-const Post = ({post, handleEdit, handleCancel}) => {
+const Post = ({post, handleEdit, handleDelete}) => {
     const { username } = useSelector(state => state.user);
     
     return (
@@ -56,7 +57,7 @@ const Post = ({post, handleEdit, handleCancel}) => {
                     <div>{(new Date(post.created)).toLocaleString()}</div><VerticalLine/>
                     {username === post.username && <>
                         <div className="post_button" onClick={handleEdit}>수정</div><VerticalLine/>
-                        <div className="pots_button" onClick={handleCancel}>삭제</div> </>}
+                        <div className="pots_button" onClick={handleDelete}>삭제</div> </>}
                 </Info>
             </Header>
             <Body>

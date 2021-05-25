@@ -53,11 +53,11 @@ const SignUp = ({history}) => {
         event.preventDefault();
         
         if (!isValid.email || !isValid.username || !isValid.password || !isValid.password2){
-            setMessage('The form is not correcty filled out.', 'is-warning', true);
+            setMessage('올바르게 입력되지 않은 값이 있습니다.', 'is-warning', true);
             return;
         } 
         
-        setMessage('Waiting for the server to respond...', 'is-warning', true);
+        setMessage('서버의 응답을 기다리는 중...', 'is-warning', true);
         try {
             const response = await api.signup(JSON.stringify(state));
             if (response.status === 201) {
@@ -81,7 +81,7 @@ const SignUp = ({history}) => {
                 <Input icon={faUser} iconPosition="has-icons-left" placeholder="Username" type="text" name="username" value={state.username} onChange={onInput} isValid={isValid.username} validationMessage={clientMessage.notEmpty}/>
                 <Input icon={faLock} iconPosition="has-icons-left" placeholder="Password" type="password" name="password" value={state.password} onChange={onInput} isValid={isValid.password} validationMessage={clientMessage.password}/>
                 <Input icon={faLock} iconPosition="has-icons-left" placeholder="Check Password" type="password" name="password2" value={state.password2} onChange={onInput} isValid={isValid.password2} validationMessage={clientMessage.password2}/>
-                <Button color="is-info" content="SignUp" helpText="SignIn" /> 
+                <Button color="is-info" content="회원가입" helpText="로그인" helpTextUrl="signin"/> 
             </AuthForm>
         </>
     )

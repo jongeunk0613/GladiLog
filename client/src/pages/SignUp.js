@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setMessage, toggleMessage } from '../modules/message';
@@ -27,8 +27,8 @@ const SignUp = ({history}) => {
     });
     const {content, type, show} = useSelector(state => state.message);
     const dispatch = useDispatch();
-    const setMessageCall = useCallback((content, type, show) => dispatch(setMessage(content, type, show)), [dispatch]);
-    const toggleMessageCall = useCallback(() => dispatch(toggleMessage()), [dispatch]);
+    const setMessageCall = (content, type, show) => dispatch(setMessage(content, type, show));
+    const toggleMessageCall = () => dispatch(toggleMessage());
     
     const onInput = (e) => {
         switch(e.target.name){

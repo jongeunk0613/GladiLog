@@ -12,7 +12,7 @@ import re
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     db = DatabaseConnection()
-    user = db.call_procedure('GetUserWithUsername', [identity])[0]
+    user = db.call_procedure('GetUserWithID', [identity])[0]
     return user
 
 
@@ -20,12 +20,12 @@ def user_lookup_callback(_jwt_header, jwt_data):
 def expired_token_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     db = DatabaseConnection()
-    user = db.call_procedure('GetUserWithUsername', [identity])[0]
+    user = db.call_procedure('GetUserWithID', [identity])[0]
     try:
         decode_token(user['refresh_token'])
     except Exception:
         return jsonify({'msg': '세션이 만료되었습니다. 다시 로그인 하세요.'}), 401
-    access_token = create_access_token(identity=user['username'])
+    access_token = create_access_token(identity=user['id'])
     resp = jsonify({'success': True})
     set_access_cookies(resp, access_token)
     return resp, 200
@@ -81,8 +81,9 @@ def signin():
             user = result[0]
 
             if check_password_hash(user['password_hash'], data.get('password')):
-                access_token = create_access_token(identity=user['username'])
-                refresh_token = create_refresh_token(identity=user)
+                access_token = create_access_token(identity=user['id'])
+                print(access_token)
+                refresh_token = create_refresh_token(identity=user['id'])
                 db.call_procedure('UpdateUserRefreshToken', [data.get('username'), refresh_token], True)
                 resp = jsonify({'success': True, 'username': data.get('username')})
                 set_access_cookies(resp, access_token)
@@ -99,8 +100,9 @@ def signout():
     unset_jwt_cookies(resp)
     return resp, 200
 
+
 @auth.route('/protected')
 @jwt_required()
 def protected():
-    print(current_user.get('id'))
+    print(current_user)
     return jsonify({'success': True}), 200

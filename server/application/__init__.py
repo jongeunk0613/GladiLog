@@ -16,10 +16,6 @@ def create_app(config_name):
     jwt.init_app(app)
     cors.init_app(app, supports_credentials=True)
 
-    @app.route('/time')
-    def get_current_time():
-        return {'time': time.time()}
-
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
 

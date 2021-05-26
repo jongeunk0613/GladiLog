@@ -20,8 +20,8 @@ function App() {
                 <Route path="/auth/signup" exact component={SignUp} />
                 <Route path="/auth/signin" exact component={SignIn} />
                 <Route path="/post/write" exact component={() => <Auth PageComponent={PostWrite} />} />
-                <Route path="/post/:id" exact component={PostDetail} />
-                <Route path="/post/edit/:id" exact component={() => <Auth PageComponent={PostEdit} />} />
+                <Route path="/post/:postID" exact component={PostDetail} />
+                <Route path="/post/edit/:postID" exact component={() => <Auth PageComponent={PostEdit} />} />
             </Switch>
         </Base>
     </div>

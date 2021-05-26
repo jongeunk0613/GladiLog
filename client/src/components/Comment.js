@@ -11,10 +11,10 @@ import Modal from './Modal';
 const Comment = () => {
     const { username } = useSelector(state => state.user);
     const [modal, setModal] = useState(false);
-    const { id } = useParams();
+    const { postID } = useParams();
     const [body, setBody] = useState('');
     const [isEdit, setEdit] = useState({state: false, commentID: null});
-    const [loading, comments, error, setComments] = usePromise(() => api.getComments(id), []);
+    const [loading, comments, error, setComments] = usePromise(() => api.getComments(postID), []);
     
     const onChange = (event) => {
         setBody(event.target.value);
@@ -28,7 +28,7 @@ const Comment = () => {
         }
         
         try {
-            const response = await api.writeComment(id, JSON.stringify({body}));
+            const response = await api.writeComment(postID, JSON.stringify({body}));
             if (response.status === 201) {
                 setBody('');
                 setComments([response.data.newComment, ...comments])
@@ -62,28 +62,28 @@ const Comment = () => {
         }
     }
     
-    const handleDelete = async (id, commentUsername) => {
+    const handleDelete = async (commentID, commentUsername) => {
         try {
             if (username !== commentUsername){
                 alert("해당 댓글을 지울 수 없습니다.");
                 return;
             }
-            const response = await api.deleteComment(id);
+            const response = await api.deleteComment(commentID);
 
             if (response.status === 202){
-                setComments(comments.filter(comment => comment.id !== id));
+                setComments(comments.filter(comment => comment.id !== commentID));
             }
         } catch (e){
             console.log(e);
         }
     }
     
-    const handleEdit = async (id) => {
+    const handleEdit = async (commentID) => {
         try {
-            const response = await api.getComment(id);
+            const response = await api.getComment(commentID);
             
             if (response.status === 200){
-                setEdit({status: true, commentID: id});
+                setEdit({status: true, commentID: commentID});
                 setBody(response.data.data.body);
             }
         } catch (e) {

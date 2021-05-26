@@ -8,9 +8,9 @@ import Post from '../components/Post';
 import Comment from '../components/Comment';
 
 const PostDetail = ({history}) => {
-    const { id } = useParams();
+    const { postID } = useParams();
     const { username } = useSelector(state => state.user);
-    const [loading, post, error] = usePromise(() => api.getPost(id), []);
+    const [loading, post, error] = usePromise(() => api.getPost(postID), []);
     
     const handleDelete = async () => {
         try {
@@ -18,7 +18,7 @@ const PostDetail = ({history}) => {
                 alert("해당 게시글을 지울 수 없습니다.");
                 return;
             }
-            const response = await api.deletePost(id);
+            const response = await api.deletePost(postID);
 
             if (response.status === 202){
                 history.push('/');
@@ -33,7 +33,7 @@ const PostDetail = ({history}) => {
             alert("해당 게시글을 수정할 수 없습니다.");
             return;
         }
-        history.push(`/post/edit/${id}`);
+        history.push(`/post/edit/${postID}`);
     }
     
     if (loading) {

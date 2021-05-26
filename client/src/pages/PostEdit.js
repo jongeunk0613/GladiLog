@@ -7,7 +7,7 @@ import PostForm from '../components/PostForm';
 import Modal from '../components/Modal';
 
 const PostEdit = () => {
-    const { id } = useParams();
+    const { postID } = useParams();
     const history = useHistory();
     const { username } = useSelector(state => state.user);
     const [modal, setModal] = useState(false);
@@ -22,7 +22,7 @@ const PostEdit = () => {
         const process = async () => {
             setLoading(true);
             try{
-                const resolved = await api.getPost(id);
+                const resolved = await api.getPost(postID);
                 setState(resolved.data.data);
                 if (resolved.data.data.username !== username){
                     setModal(true);
@@ -33,7 +33,7 @@ const PostEdit = () => {
             setLoading(false);
         };
         process();
-    }, [id, username]);
+    }, [postID, username]);
     
     if (loading) {
         return <h1> LOADING </h1>
@@ -58,10 +58,10 @@ const PostEdit = () => {
         event.preventDefault();
         
         try {
-            const response = await api.editPost(id, JSON.stringify(state));
+            const response = await api.editPost(postID, JSON.stringify(state));
             
             if (response.status === 200) {
-                history.push(`/post/${id}`);
+                history.push(`/post/${postID}`);
             }
         } catch(e) {
             console.log(e);

@@ -39,7 +39,7 @@ const NavBar = () => {
                             { username}
                         </Link>
                     }
-                    <Link to ="/" className="navbar-item">
+                    <Link to ="/post/write3" className="navbar-item">
                         <FontAwesomeIcon icon={faChartBar} />
                     </Link>
                     { username !== null ? 

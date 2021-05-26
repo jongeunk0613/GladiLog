@@ -72,7 +72,7 @@ def getComment(id):
         raise e
 
 
-@comment.route('/edit/<int:id>', methods=['PATCH'])
+@comment.route('/update/<int:id>', methods=['PATCH'])
 @jwt_required()
 def updateComment(id):
     if request.method == 'PATCH':

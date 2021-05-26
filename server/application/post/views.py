@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required, current_user
 from ..db.mysql_connection import DatabaseConnection
 
 
-@post.route('/write', methods=['POST'])
+@post.route('/create', methods=['POST'])
 @jwt_required()
 def createPost():
     if request.method == 'POST':
@@ -69,7 +69,7 @@ def deletePost(id):
     return jsonify({'success': False}), 400
 
 
-@post.route('/edit/<int:id>', methods=['PATCH'])
+@post.route('/update/<int:id>', methods=['PATCH'])
 @jwt_required()
 def updatePost(id):
     if request.method == 'PATCH':

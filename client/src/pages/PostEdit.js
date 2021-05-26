@@ -58,7 +58,7 @@ const PostEdit = () => {
         event.preventDefault();
         
         try {
-            const response = await api.updatePost(id, JSON.stringify(state));
+            const response = await api.editPost(id, JSON.stringify(state));
             
             if (response.status === 200) {
                 history.push(`/post/${id}`);

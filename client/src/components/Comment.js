@@ -28,7 +28,7 @@ const Comment = () => {
         }
         
         try {
-            const response = await api.createComment(id, JSON.stringify({body}));
+            const response = await api.writeComment(id, JSON.stringify({body}));
             if (response.status === 201) {
                 setBody('');
                 setComments([...comments, response.data.newComment])
@@ -47,7 +47,7 @@ const Comment = () => {
         }
         
         try {
-            const response = await api.updateComment(isEdit.commentID, JSON.stringify({body}));
+            const response = await api.editComment(isEdit.commentID, JSON.stringify({body}));
             
             if (response.status !== 200) {
                 throw(response.data.msg);

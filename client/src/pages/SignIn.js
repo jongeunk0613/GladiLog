@@ -70,10 +70,10 @@ const SignIn = ({history}) => {
     return(
         <>
             <Message content={content} type={type} show={show}/>
-            <AuthForm height="16rem" handleSubmit={handleSubmit}>
+            <AuthForm height="18rem" handleSubmit={handleSubmit}>
                 <Input icon={faUser} iconPosition="has-icons-left" placeholder="Username" type="text" name="username" value={state.username} isValid={isValid.username} onChange={onInput} validationMessage={clientMessage.notEmpty}/>
                 <Input icon={faLock} iconPosition="has-icons-left" placeholder="Password" type="password" name="password" value={state.password} isValid={isValid.password} onChange={onInput} validationMessage={clientMessage.notEmpty}/>
-                <Button color="is-info" content="로그인" helpText="회원가입" helpTextUrl="signup"/>
+                <Button color="is-info" content="로그인" helpText="회원가입" helpTextUrl="signup" marginTop="1rem"/>
             </AuthForm>
         </>
     )

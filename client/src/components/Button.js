@@ -22,6 +22,7 @@ const ButtonContainer = styled.div`
 `;
 
 const StyledButton = styled.button`
+    margin-top: ${props => props.marginTop};
     cursor: pointer;
     background-color: ${props => type[props.type]["background"]};
     color: ${props => type[props.type]["color"]};
@@ -32,10 +33,10 @@ const StyledButton = styled.button`
     white-space: ${props => props.nowrap? "nowrap": "normal"};
 `
 
-const Button = ({color, content, helpText, helpTextUrl, onClick, nowrap = false}) => {
+const Button = ({color, content, helpText, helpTextUrl, onClick, nowrap = false, marginTop=0}) => {
     return (
         <ButtonContainer>
-            <StyledButton onClick={onClick} type={color} nowrap={nowrap}>
+            <StyledButton onClick={onClick} type={color} nowrap={nowrap} marginTop={marginTop}>
                 {content}
             </StyledButton>
             {helpText && <Link to={helpTextUrl} className="help">{helpText}</Link>}

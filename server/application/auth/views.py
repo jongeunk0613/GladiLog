@@ -82,7 +82,6 @@ def signin():
 
             if check_password_hash(user['password_hash'], data.get('password')):
                 access_token = create_access_token(identity=user['id'])
-                print(access_token)
                 refresh_token = create_refresh_token(identity=user['id'])
                 db.call_procedure('UpdateUserRefreshToken', [data.get('username'), refresh_token], True)
                 resp = jsonify({'success': True, 'username': data.get('username')})

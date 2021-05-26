@@ -76,12 +76,12 @@ const SignUp = ({history}) => {
     return(
         <>
             <Message content={content} type={type} show={show}/>
-            <AuthForm height="25rem" handleSubmit={handleSubmit}>
+            <AuthForm height="27rem" handleSubmit={handleSubmit}>
                 <Input icon={faEnvelope} iconPosition="has-icons-left" placeholder="Email" type="text" name="email" value={state.email} onChange={onInput} isValid={isValid.email} validationMessage={clientMessage.email}/>
                 <Input icon={faUser} iconPosition="has-icons-left" placeholder="Username" type="text" name="username" value={state.username} onChange={onInput} isValid={isValid.username} validationMessage={clientMessage.notEmpty}/>
                 <Input icon={faLock} iconPosition="has-icons-left" placeholder="Password" type="password" name="password" value={state.password} onChange={onInput} isValid={isValid.password} validationMessage={clientMessage.password}/>
                 <Input icon={faLock} iconPosition="has-icons-left" placeholder="Check Password" type="password" name="password2" value={state.password2} onChange={onInput} isValid={isValid.password2} validationMessage={clientMessage.password2}/>
-                <Button color="is-info" content="회원가입" helpText="로그인" helpTextUrl="signin"/> 
+                <Button color="is-info" content="회원가입" helpText="로그인" helpTextUrl="signin" marginTop="2rem"/> 
             </AuthForm>
         </>
     )

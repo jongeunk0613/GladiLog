@@ -49,11 +49,11 @@ const SignIn = ({history}) => {
         event.preventDefault();
         
         if (!state.username || !state.password){
-            setMessageCall('올바르게 입력되지 않은 값이 있습니다.', 'is-warning', true);
+            setMessageCall(clientMessage.notValid, 'is-warning', true);
             return;
         } 
         
-        setMessageCall('서버의 응답을 기다리는 중...', 'is-warning', true);
+        setMessageCall(clientMessage.waitingServerResponse, 'is-warning', true);
         try {
             const response = await api.signin(JSON.stringify(state));
             if (response.status === 200) {

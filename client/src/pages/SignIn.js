@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
-import { set } from '../modules/message';
+import { setMessage } from '../modules/message';
 import { setUsername } from '../modules/user';
 
 import * as api from '../lib/api';
@@ -24,7 +24,7 @@ const SignIn = ({history}) => {
     })
     const {content, type, show} = useSelector(state => state.message);
     const dispatch = useDispatch();
-    const setMessage = useCallback((content, type, show) => dispatch(set(content, type, show)), [dispatch]);
+    const setMessageCall = useCallback((content, type, show) => dispatch(setMessage(content, type, show)), [dispatch]);
     
     const onInput = (e) => {
         switch(e.target.name){
@@ -49,21 +49,21 @@ const SignIn = ({history}) => {
         event.preventDefault();
         
         if (!state.username || !state.password){
-            setMessage('올바르게 입력되지 않은 값이 있습니다.', 'is-warning', true);
+            setMessageCall('올바르게 입력되지 않은 값이 있습니다.', 'is-warning', true);
             return;
         } 
         
-        setMessage('서버의 응답을 기다리는 중...', 'is-warning', true);
+        setMessageCall('서버의 응답을 기다리는 중...', 'is-warning', true);
         try {
             const response = await api.signin(JSON.stringify(state));
             if (response.status === 200) {
-                setMessage(response.data.msg, 'is-success', true);
+                setMessageCall(response.data.msg, 'is-success', true);
                 dispatch(setUsername(response.data.username));
                 history.push('/');
             }
             
         } catch(e) {
-            setMessage(e.response.data.msg, 'is-danger', true);
+            setMessageCall(e.response.data.msg, 'is-danger', true);
         }
     }
     

@@ -31,7 +31,7 @@ const Comment = () => {
             const response = await api.writeComment(id, JSON.stringify({body}));
             if (response.status === 201) {
                 setBody('');
-                setComments([...comments, response.data.newComment])
+                setComments([response.data.newComment, ...comments])
             }
             
         } catch(e) {

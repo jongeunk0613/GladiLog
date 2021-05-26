@@ -9,7 +9,7 @@ const CommentList = ({comments, handleDelete, handleEdit}) => {
     
     return (
         <>
-            {comments && ([].concat(comments).reverse()).map((comment) => <CommentItem key={comment.id} comment={comment} handleDelete={handleDelete} handleEdit={handleEdit}/>)}
+            {comments && (comments).map((comment) => <CommentItem key={comment.id} comment={comment} handleDelete={handleDelete} handleEdit={handleEdit}/>)}
         </>
     )
 }

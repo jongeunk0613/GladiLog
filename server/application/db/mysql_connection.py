@@ -46,7 +46,7 @@ class DatabaseConnection():
                 self.cursor.callproc(procedure_name, params)
 
             if self.cursor.description:
-                row_headers = [rowh[0].lower() for rowh in self.cursor.description]
+                row_headers = [column[0].lower() for column in self.cursor.description]
                 rows = [row for row in self.cursor]
                 result = []
                 for row in rows:

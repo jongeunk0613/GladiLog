@@ -39,6 +39,23 @@ const Comment = () => {
         }
     }
     
+    const handleEdit = async (commentID, commentUsername) => {
+        try {
+            if (username !== commentUsername){
+                alert("해당 댓글을 수정 할 수 없습니다.");
+                return;
+            }
+            const response = await api.getComment(commentID);
+            
+            if (response.status === 200){
+                setEdit({status: true, commentID: commentID});
+                setBody(response.data.data.body);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+    
     const handleEditSubmit = async (event, isEdit, body) => {
         event.preventDefault();
         
@@ -74,23 +91,6 @@ const Comment = () => {
                 setComments(comments.filter(comment => comment.id !== commentID));
             }
         } catch (e){
-            console.log(e);
-        }
-    }
-    
-    const handleEdit = async (commentID, commentUsername) => {
-        try {
-            if (username !== commentUsername){
-                alert("해당 댓글을 수정 할 수 없습니다.");
-                return;
-            }
-            const response = await api.getComment(commentID);
-            
-            if (response.status === 200){
-                setEdit({status: true, commentID: commentID});
-                setBody(response.data.data.body);
-            }
-        } catch (e) {
             console.log(e);
         }
     }

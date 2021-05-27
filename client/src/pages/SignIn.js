@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setMessage } from '../modules/message';
@@ -11,14 +11,14 @@ import AuthForm from '../components/AuthForm';
 import useInputs from '../hooks/useInputs';
 import Message from '../components/Message';
 import clientMessage from '../lib/clientMessage';
-import { isNotEmpty } from '../lib/validator';
+import useValidations from '../hooks/useValidations';
 
 const SignIn = ({history}) => {
     const [state, onChange] = useInputs({
         username: '',
         password: ''
     });
-    const [isValid, onValidation] = useState({
+    const [isValid, setValid] = useValidations({
         username: false,
         password: false,
     })
@@ -27,21 +27,7 @@ const SignIn = ({history}) => {
     const setMessageCall = (content, type, show) => dispatch(setMessage(content, type, show));
     
     const onInput = (e) => {
-        switch(e.target.name){
-            case 'username':
-                onValidation({
-                    ...state,
-                    username: isNotEmpty(e.target.value)
-                });
-                break;
-            case 'password':
-                onValidation({
-                    ...state,
-                    password: isNotEmpty(e.target.value)
-                })
-                break;
-            default:
-        }
+        setValid(e);
         onChange(e);
     }
     

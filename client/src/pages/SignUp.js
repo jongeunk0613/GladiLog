@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setMessage, toggleMessage } from '../modules/message';
@@ -10,7 +10,7 @@ import AuthForm from '../components/AuthForm';
 import useInputs from '../hooks/useInputs';
 import Message from '../components/Message';
 import clientMessage from '../lib/clientMessage';
-import { isEmail, isPassword, isCheckPassword, isNotEmpty } from '../lib/validator';
+import useValidations from '../hooks/useValidations';
 
 const SignUp = ({history}) => {
     const [state, onChange] = useInputs({
@@ -19,33 +19,19 @@ const SignUp = ({history}) => {
         password: '',
         password2: ''
     });
-    const [isValid, onValid] = useState({
+    const [isValid, setValid] = useValidations({
         email: false,
         username: false,
         password: false,
         password2: false
-    });
+    }, true)
     const {content, type, show} = useSelector(state => state.message);
     const dispatch = useDispatch();
     const setMessageCall = (content, type, show) => dispatch(setMessage(content, type, show));
     const toggleMessageCall = () => dispatch(toggleMessage());
     
     const onInput = (e) => {
-        switch(e.target.name){
-            case 'email':
-                onValid({...isValid, email: isEmail(e.target.value)});
-                break;
-            case 'password':
-                onValid({...isValid, password: isPassword(e.target.value), password2: isCheckPassword(state.password2, e.target.value)});
-                break;
-            case 'password2':
-                onValid({...isValid, password2: isCheckPassword(e.target.value, state.password)});
-                break;
-            case 'username':
-                onValid({...isValid, username: isNotEmpty(e.target.value)});
-                break;
-            default:
-        }
+        setValid(e);
         onChange(e);
     }
     

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
-    height: 14rem;
+    height: 13.5rem;
     padding: 1rem 1rem 2rem 1rem;
 `;
 

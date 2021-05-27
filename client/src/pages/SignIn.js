@@ -43,7 +43,6 @@ const SignIn = ({history}) => {
         try {
             const response = await api.signin(JSON.stringify(state));
             if (response.status === 200) {
-                setMessageCall(response.data.msg, 'is-success', true);
                 dispatch(setUsername(response.data.username));
                 history.push('/');
             }

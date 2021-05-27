@@ -78,8 +78,12 @@ const Comment = () => {
         }
     }
     
-    const handleEdit = async (commentID) => {
+    const handleEdit = async (commentID, commentUsername) => {
         try {
+            if (username !== commentUsername){
+                alert("해당 댓글을 수정 할 수 없습니다.");
+                return;
+            }
             const response = await api.getComment(commentID);
             
             if (response.status === 200){

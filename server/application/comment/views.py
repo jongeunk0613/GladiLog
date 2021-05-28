@@ -43,11 +43,9 @@ def deleteComment(id):
     if request.method == 'DELETE':
         try:
             db = DatabaseConnection()
-            user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
+            comment = db.call_procedure('GetCommentOfUser', [id, current_user.get('id')])[0]
 
-            post = db.call_procedure('GetComment', [id])[0]
-
-            if user.get('username') == post.get('username'):
+            if comment:
                 db.call_procedure('DeleteComment', [id], True)
                 return jsonify({'msg': serverMessage["deleteCommentSuccessful"]}), 202
             else:
@@ -81,10 +79,9 @@ def updateComment(id):
             data = request.get_json(force=True)
 
             db = DatabaseConnection()
-            user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
-            comment = db.call_procedure('GetComment', [id])[0]
+            comment = db.call_procedure('GetCommentOfUser', [id, current_user.get('id')])[0]
 
-            if user.get('username') == comment.get('username'):
+            if comment:
                 db.call_procedure('UpdateComment', [id, data.get('body')], True)
             else:
                 return jsonify({'msg': serverMessage["editCommentNotAuthorized"]}), 403

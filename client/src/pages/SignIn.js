@@ -12,7 +12,6 @@ import AuthForm from '../components/AuthForm';
 import useInputs from '../hooks/useInputs';
 import Message from '../components/Message';
 import clientMessage from '../lib/clientMessage';
-import useValidations from '../hooks/useValidations';
 import { isNotEmpty } from '../lib/validator';
 
 const SignIn = ({history}) => {

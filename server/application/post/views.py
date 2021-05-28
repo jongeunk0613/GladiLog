@@ -56,11 +56,9 @@ def deletePost(id):
     if request.method == 'DELETE':
         try:
             db = DatabaseConnection()
-            user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
+            post = db.call_procedure('GetPostOfUser', [id, current_user.get('id')])[0]
 
-            post = db.call_procedure('GetPost', [id])[0]
-
-            if user.get('username') == post.get('username'):
+            if post:
                 db.call_procedure('DeletePost', [id], True)
                 return jsonify({'msg': serverMessage["deletePostSuccessful"]}), 202
             else:
@@ -78,10 +76,9 @@ def updatePost(id):
             data = request.get_json(force=True)
 
             db = DatabaseConnection()
-            user = db.call_procedure('GetUserWithID', [current_user.get('id')])[0]
-            post = db.call_procedure('GetPost', [id])[0]
+            post = db.call_procedure('GetPostOfUser', [id, current_user.get('id')])[0]
 
-            if user.get('username') == post.get('username'):
+            if post:
                 db.call_procedure('UpdatePost', [id, data.get('title'), data.get('body')], True)
             else:
                 return jsonify({'msg': serverMessage["editPostNotAuthorized"]}), 403

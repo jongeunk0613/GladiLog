@@ -7,6 +7,7 @@ from ..db.mysql_connection import DatabaseConnection
 from .. import jwt
 import re
 from ..utils.validation import isValid
+from ..utils.serverMessage import serverMessage
 
 
 @jwt.user_lookup_loader
@@ -25,7 +26,7 @@ def expired_token_callback(_jwt_header, jwt_data):
     try:
         decode_token(user['refresh_token'])
     except Exception:
-        return jsonify({'msg': '세션이 만료되었습니다. 다시 로그인 하세요.'}), 401
+        return jsonify({'msg': serverMessage.sessionExpired}), 401
     access_token = create_access_token(identity=user['id'])
     resp = jsonify({'success': True})
     set_access_cookies(resp, access_token)
@@ -38,7 +39,7 @@ def signup():
         try:
             data = request.get_json(force=True)
             if not data.get('email') or not data.get('username') or not data.get('password'):
-                return jsonify({'msg': '입력되지 않은 값이 있습니다.'}), 400
+                return jsonify({'msg': serverMessage.missingInputField}), 400
 
             validationResult, message = isValid([data.get('email'), data.get('username'), data.get('password'), data.get('password2')])
             if not validationResult:
@@ -46,13 +47,13 @@ def signup():
 
             db = DatabaseConnection()
             if db.call_procedure('GetUserWithEmail', [data.get('email')]):
-                return jsonify({'msg': '이미 사용되고 있는 이메일입니다.'}), 400
+                return jsonify({'msg': serverMessage.emailTaken}), 400
 
             if db.call_procedure('GetUserWithUsername', [data.get('username')]):
-                return jsonify({'msg': '이미 사용되고 있는 유저네임입니다.'}), 400
+                return jsonify({'msg': serverMessage.usernameTaken}), 400
 
             db.call_procedure('CreateUser', [data.get('email'), data.get('username'), generate_password_hash(data.get('password'))], True)
-            return ({'msg': '회원가입 성공. 로그인 페이지로 이동중...'}), 201
+            return ({'msg': serverMessage.signupSuccessful}), 201
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             print(e)
             raise e
@@ -64,13 +65,13 @@ def signin():
         try:
             data = request.get_json(force=True)
             if not data.get('username') or not data.get('password'):
-                return jsonify({'msg': '입력되지 않은 값이 있습니다.'}), 400
+                return jsonify({'msg': serverMessage.missingInputField}), 400
 
             db = DatabaseConnection()
             result = db.call_procedure('GetUserWithUsername', [data.get('username')])
 
             if not result:
-                return jsonify({'msg': '입력받은 유저네임의 계정이 존재하지 않습니다.'}), 400
+                return jsonify({'msg': serverMessage.noAccount}), 400
 
             user = result[0]
 
@@ -82,7 +83,7 @@ def signin():
                 set_access_cookies(resp, access_token)
                 return resp, 200
             else:
-                return jsonify({'msg': '비밀번호가 틀렸습니다. 다시 시도하세요.'}), 400
+                return jsonify({'msg': serverMessage.wrongPassword}), 400
         except Exception as e:
             raise e
 

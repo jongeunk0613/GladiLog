@@ -1,8 +1,8 @@
-const SET = 'messages/SET';
-const TOGGLE = 'messages/TOGGLE';
+const SET_MESSAGE = 'messages/SET';
+const TOGGLE_MESSAGE = 'messages/TOGGLE';
 
-export const set = (content, type, show) => ({
-    type: SET,
+export const setMessage = (content, type, show) => ({
+    type: SET_MESSAGE,
     message: {
         content,
         type,
@@ -10,8 +10,8 @@ export const set = (content, type, show) => ({
     }
 })
 
-export const toggle = (show) => ({
-    type: TOGGLE,
+export const toggleMessage = (show) => ({
+    type: TOGGLE_MESSAGE,
     show
 })
 
@@ -23,9 +23,9 @@ const initialState = {
 
 const message = (state = initialState, action) => {
     switch(action.type){
-        case SET:
+        case SET_MESSAGE:
             return action.message;
-        case TOGGLE:
+        case TOGGLE_MESSAGE:
             return {
                 ...state,
                 show: !state.show

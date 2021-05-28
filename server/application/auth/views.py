@@ -6,13 +6,15 @@ from . import auth
 from ..db.mysql_connection import DatabaseConnection
 from .. import jwt
 import re
+from ..utils.validation import isValid
+from ..utils.serverMessage import serverMessage
 
 
 @jwt.user_lookup_loader
 def user_lookup_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     db = DatabaseConnection()
-    user = db.call_procedure('GetUserWithUsername', [identity])[0]
+    user = db.call_procedure('GetUserWithID', [identity])[0]
     return user
 
 
@@ -20,12 +22,12 @@ def user_lookup_callback(_jwt_header, jwt_data):
 def expired_token_callback(_jwt_header, jwt_data):
     identity = jwt_data["sub"]
     db = DatabaseConnection()
-    user = db.call_procedure('GetUserWithUsername', [identity])[0]
+    user = db.call_procedure('GetUserWithID', [identity])[0]
     try:
         decode_token(user['refresh_token'])
     except Exception:
-        return jsonify({'msg': '세션이 만료되었습니다. 다시 로그인 하세요.'}), 401
-    access_token = create_access_token(identity=user['username'])
+        return jsonify({'msg': serverMessage["sessionExpired"]}), 401
+    access_token = create_access_token(identity=user['id'])
     resp = jsonify({'success': True})
     set_access_cookies(resp, access_token)
     return resp, 200
@@ -37,30 +39,28 @@ def signup():
         try:
             data = request.get_json(force=True)
             if not data.get('email') or not data.get('username') or not data.get('password'):
-                return jsonify({'msg': '입력되지 않은 값이 있습니다.'}), 400
+                return jsonify({'msg': serverMessage["missingInputField"]}), 400
 
-            if not re.match("^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$", data.get('email')):
-                return jsonify({'msg': '올바르지 않는 이메일 형식입니다.'}), 400
-
-            if not re.match("^(?!\s*$).+", data.get('username')):
-                return jsonify({'msg': '스페이스는 유저네임으로 사용될 수 없습니다.'}), 400
-
-            if not re.match("^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$", data.get('password')):
-                return jsonify({'msg': '비밀번호는 숫자, 문자, 특수문자로 구성된 8 길이 이상의 값이어야 합니다.'}), 400
-
-            if not data.get('password') == data.get('password2'):
-                return jsonify({'msg': '두 비밀번호의 값이 일치하지 않습니다.'}), 400
+            validationResult, message = isValid([data.get('email'), data.get('username'), data.get('password'), data.get('password2')])
+            if not validationResult:
+                return jsonify({'msg': message}), 400
 
             db = DatabaseConnection()
-            if db.call_procedure('GetUserWithEmail', [data.get('email')]):
-                return jsonify({'msg': '이미 사용되고 있는 이메일입니다.'}), 400
-
-            if db.call_procedure('GetUserWithUsername', [data.get('username')]):
-                return jsonify({'msg': '이미 사용되고 있는 유저네임입니다.'}), 400
+            duplicateUser = db.call_procedure('GetDuplicateUser', [data.get('email'), data.get('username')])
+            if len(duplicateUser) == 2:
+                return jsonify({'msg': serverMessage["emailAndUsernameTaken"]}), 400
+            elif len(duplicateUser) == 1:
+                if duplicateUser[0]["email"] == data.get('email') and duplicateUser[0]["username"] == data.get('username'):
+                    return jsonify({'msg': serverMessage["emailAndUsernameTaken"]}), 400
+                elif duplicateUser[0]["username"] == data.get('username'):
+                    return jsonify({'msg': serverMessage["usernameTaken"]}), 400
+                elif duplicateUser[0]["email"] == data.get('email'):
+                    return jsonify({'msg': serverMessage["emailTaken"]}), 400
 
             db.call_procedure('CreateUser', [data.get('email'), data.get('username'), generate_password_hash(data.get('password'))], True)
-            return ({'msg': '회원가입 성공. 로그인 페이지로 이동중...'}), 201
+            return ({'msg': serverMessage["signupSuccessful"]}), 201
         except (MySQLdb.Error, MySQLdb.Warning) as e:
+            print(e)
             raise e
 
 
@@ -70,25 +70,25 @@ def signin():
         try:
             data = request.get_json(force=True)
             if not data.get('username') or not data.get('password'):
-                return jsonify({'msg': '입력되지 않은 값이 있습니다.'}), 400
+                return jsonify({'msg': serverMessage["missingInputField"]}), 400
 
             db = DatabaseConnection()
             result = db.call_procedure('GetUserWithUsername', [data.get('username')])
 
             if not result:
-                return jsonify({'msg': '입력받은 유저네임의 계정이 존재하지 않습니다.'}), 400
+                return jsonify({'msg': serverMessage["noAccount"]}), 400
 
             user = result[0]
 
             if check_password_hash(user['password_hash'], data.get('password')):
-                access_token = create_access_token(identity=user['username'])
-                refresh_token = create_refresh_token(identity=user)
+                access_token = create_access_token(identity=user['id'])
+                refresh_token = create_refresh_token(identity=user['id'])
                 db.call_procedure('UpdateUserRefreshToken', [data.get('username'), refresh_token], True)
                 resp = jsonify({'success': True, 'username': data.get('username')})
                 set_access_cookies(resp, access_token)
                 return resp, 200
             else:
-                return jsonify({'msg': '비밀번호가 틀렸습니다. 다시 시도하세요.'}), 400
+                return jsonify({'msg': serverMessage["wrongPassword"]}), 400
         except Exception as e:
             raise e
 
@@ -99,8 +99,9 @@ def signout():
     unset_jwt_cookies(resp)
     return resp, 200
 
+
 @auth.route('/protected')
 @jwt_required()
 def protected():
-    print(current_user.get('id'))
+    print(current_user)
     return jsonify({'success': True}), 200

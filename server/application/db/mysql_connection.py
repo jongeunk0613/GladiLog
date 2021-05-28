@@ -24,6 +24,7 @@ class DatabaseConnection():
                 db=self.db, charset=self.charset
             )
             self.cursor = self.conn.cursor()
+            # self.cursor = self.conn.cursor(MySQLdb.cursors.DictCursor) 
         except Exception as e:
             raise e
 
@@ -46,7 +47,7 @@ class DatabaseConnection():
                 self.cursor.callproc(procedure_name, params)
 
             if self.cursor.description:
-                row_headers = [rowh[0].lower() for rowh in self.cursor.description]
+                row_headers = [column[0].lower() for column in self.cursor.description]
                 rows = [row for row in self.cursor]
                 result = []
                 for row in rows:

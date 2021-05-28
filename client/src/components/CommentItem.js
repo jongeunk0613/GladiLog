@@ -42,7 +42,7 @@ const CommentItem = ({comment, handleDelete, handleEdit}) => {
             <Header>
                 <Author>{comment.username}</Author>
                 <div>{new Date(comment.created).toLocaleDateString()}</div>
-                {username === comment.username && <Button onClick={() => {handleEdit(comment.id)}}>수정</Button>}
+                {username === comment.username && <Button onClick={() => {handleEdit(comment.id, comment.username)}}>수정</Button>}
                 {username === comment.username && <Button onClick={() => {handleDelete(comment.id, comment.username)}}>삭제</Button>}
             </Header>
             <Body>{comment.body}</Body>

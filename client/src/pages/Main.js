@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import * as api from '../lib/api';
+import apiCall from '../lib/api';
 import PostList from '../components/PostList';
 import usePromise from '../hooks/usePromise';
 
@@ -16,7 +16,7 @@ const HR = styled.hr`
 `;
 
 const Main = () => {
-    const [loading, posts, error] = usePromise(() => api.getPosts(), []);
+    const [loading, posts, error] = usePromise(() => apiCall('getPosts', null, null), []);
 
     if (loading) {
         return <h1>LOADING</h1>

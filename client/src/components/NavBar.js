@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartBar, faSignOutAlt, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
 
-import * as api from '../lib/api';
+import apiCall from '../lib/api';
+import { historyPaths } from '../lib/paths';
 import { clearUsername } from '../modules/user';
 
 const NavBar = () => {
@@ -14,11 +15,11 @@ const NavBar = () => {
     
     const onLogout = async () => {
         try {
-            const response = await api.logout();
+            const response = await apiCall('logout', null, null);
             
             if (response.status === 200){
                 dispatch(clearUsername());
-                history.go('/');
+                history.go(historyPaths.main);
             }
         } catch(e) {
             console.log(e);
@@ -28,25 +29,25 @@ const NavBar = () => {
     return (
         <nav className="navbar is-info">
             <div className="navbar-brand">
-                <Link to="/" className="navbar-item" >
+                <Link to={historyPaths.main} className="navbar-item" >
                 GladiLog
                 </Link>
             </div>
             <div className="navbar-menu is-active">
                 <div className="navbar-end">
                     { username && 
-                        <Link to="/" className="navbar-item">
+                        <Link to={historyPaths.main} className="navbar-item">
                             { username}
                         </Link>
                     }
-                    <Link to ="/" className="navbar-item">
+                    <Link to ={historyPaths.postWrite} className="navbar-item">
                         <FontAwesomeIcon icon={faChartBar} />
                     </Link>
                     { username !== null ? 
-                        <Link to ="/" className="navbar-item" onClick={onLogout}>
+                        <Link to ={historyPaths.main} className="navbar-item" onClick={onLogout}>
                             <FontAwesomeIcon icon={faSignOutAlt} />
                         </Link> :
-                        <Link to ="/auth/signin" className="navbar-item">
+                        <Link to ={historyPaths.signin} className="navbar-item">
                             <FontAwesomeIcon icon={faSignInAlt} />
                         </Link>
                     }

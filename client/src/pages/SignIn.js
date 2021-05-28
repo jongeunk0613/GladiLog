@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setMessage } from '../modules/message';
@@ -13,13 +13,14 @@ import useInputs from '../hooks/useInputs';
 import Message from '../components/Message';
 import clientMessage from '../lib/clientMessage';
 import useValidations from '../hooks/useValidations';
+import { isNotEmpty } from '../lib/validator';
 
 const SignIn = ({history}) => {
     const [state, onChange] = useInputs({
         username: '',
         password: ''
     });
-    const [isValid, setValid] = useValidations({
+    const [isValid, setValid] = useState({
         username: false,
         password: false,
     })
@@ -27,9 +28,15 @@ const SignIn = ({history}) => {
     const dispatch = useDispatch();
     const setMessageCall = (content, type, show) => dispatch(setMessage(content, type, show));
     
+    const onValid = (e) => {
+        setValid({
+            ...isValid, [e.target.name]: isNotEmpty(e.target.value)
+        })
+    }
+    
     const onInput = (e) => {
-        setValid(e);
         onChange(e);
+        onValid(e);
     }
     
     const handleSubmit = async (event) => {

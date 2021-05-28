@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setMessage, toggleMessage } from '../modules/message';
@@ -11,7 +11,7 @@ import AuthForm from '../components/AuthForm';
 import useInputs from '../hooks/useInputs';
 import Message from '../components/Message';
 import clientMessage from '../lib/clientMessage';
-import useValidations from '../hooks/useValidations';
+import { isEmail, isPassword, isCheckPassword, isNotEmpty } from '../lib/validator';
 
 const SignUp = ({history}) => {
     const [state, onChange] = useInputs({
@@ -20,20 +20,39 @@ const SignUp = ({history}) => {
         password: '',
         password2: ''
     });
-    const [isValid, setValid] = useValidations({
+    const [isValid, setValid] = useState({
         email: false,
         username: false,
         password: false,
         password2: false
-    }, true)
+    });
     const {content, type, show} = useSelector(state => state.message);
     const dispatch = useDispatch();
     const setMessageCall = (content, type, show) => dispatch(setMessage(content, type, show));
     const toggleMessageCall = () => dispatch(toggleMessage());
     
-    const onInput = (e) => {
-        setValid(e);
+    const onValid = (e) => {
+        switch(e.target.name){
+            case 'email':
+                setValid({...isValid, email: isEmail(e.target.value)});
+                break;
+            case 'password':
+                setValid({...isValid, password: isPassword(e.target.value), password2: isCheckPassword(state.password2, e.target.value)});
+                break;
+            case 'password2':
+                setValid({...isValid, password2: isCheckPassword(e.target.value, state.password)});
+                break;
+            case 'username':
+                setValid({...isValid, username: isNotEmpty(e.target.value)});
+                break;
+            default:
+                return state;
+        }
+    }
+    
+    const onInput = (e, comparingState) => {
         onChange(e);
+        onValid(e);
     }
     
     const handleSubmit = async (event) => {

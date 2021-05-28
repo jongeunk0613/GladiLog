@@ -24,6 +24,7 @@ class DatabaseConnection():
                 db=self.db, charset=self.charset
             )
             self.cursor = self.conn.cursor()
+            # self.cursor = self.conn.cursor(MySQLdb.cursors.DictCursor) 
         except Exception as e:
             raise e
 

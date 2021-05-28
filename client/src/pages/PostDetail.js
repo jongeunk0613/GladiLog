@@ -2,7 +2,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import * as api from '../lib/api';
+import apiCall from '../lib/api';
+import { historyPaths } from '../lib/paths';
 import usePromise from '../hooks/usePromise';
 import Post from '../components/Post';
 import Comment from '../components/Comment';
@@ -10,7 +11,7 @@ import Comment from '../components/Comment';
 const PostDetail = ({history}) => {
     const { postID } = useParams();
     const { username } = useSelector(state => state.user);
-    const [loading, post, error] = usePromise(() => api.getPost(postID), []);
+    const [loading, post, error] = usePromise(() => apiCall('getPost', postID, null), []);
     
     const handleDelete = async () => {
         try {
@@ -18,10 +19,10 @@ const PostDetail = ({history}) => {
                 alert("해당 게시글을 지울 수 없습니다.");
                 return;
             }
-            const response = await api.deletePost(postID);
+            const response = await apiCall('deletePost', postID, null);
 
             if (response.status === 202){
-                history.push('/');
+                history.push(historyPaths.main);
             }
         } catch (e){
             console.log(e);
@@ -33,7 +34,7 @@ const PostDetail = ({history}) => {
             alert("해당 게시글을 수정할 수 없습니다.");
             return;
         }
-        history.push(`/post/edit/${postID}`);
+        history.push(historyPaths.postEdit + postID);
     }
     
     if (loading) {

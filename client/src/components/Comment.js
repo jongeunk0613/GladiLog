@@ -3,7 +3,8 @@ import CommentForm from './CommentForm';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import * as api from '../lib/api';
+import apiCall from '../lib/api';
+import { historyPaths } from '../lib/paths';
 import usePromise from '../hooks/usePromise';
 import CommentList from './CommentList';
 import Modal from './Modal';
@@ -14,7 +15,7 @@ const Comment = () => {
     const { postID } = useParams();
     const [body, setBody] = useState('');
     const [isEdit, setEdit] = useState({state: false, commentID: null});
-    const [loading, comments, error, setComments] = usePromise(() => api.getComments(postID), []);
+    const [loading, comments, error, setComments] = usePromise(() => apiCall('getComments', postID, null), []);
     
     const onChange = (event) => {
         setBody(event.target.value);
@@ -28,7 +29,7 @@ const Comment = () => {
         }
         
         try {
-            const response = await api.writeComment(postID, JSON.stringify({body}));
+            const response = await apiCall('writeComment', postID, JSON.stringify({body}));
             if (response.status === 201) {
                 setBody('');
                 setComments([response.data.newComment, ...comments])
@@ -45,7 +46,7 @@ const Comment = () => {
                 alert("해당 댓글을 수정 할 수 없습니다.");
                 return;
             }
-            const response = await api.getComment(commentID);
+            const response = await apiCall('getComment', commentID, null);
             
             if (response.status === 200){
                 setEdit({status: true, commentID: commentID});
@@ -64,16 +65,16 @@ const Comment = () => {
         }
         
         try {
-            const response = await api.editComment(isEdit.commentID, JSON.stringify({body}));
+            const responseCommentEdit = await apiCall('editComment', isEdit.commentID, JSON.stringify({body}));
             
-            if (response.status !== 200) {
-                throw(response.data.msg);
+            if (responseCommentEdit.status !== 200) {
+                throw(responseCommentEdit.data.msg);
             } 
                         
-            const response2 = await api.getComment(isEdit.commentID);
+            const responseEditedComment = await apiCall('getComment', isEdit.commentID, null);
             setBody('');
             setEdit({status: false, commentID: null});
-            setComments(comments.map(comment => comment.id === isEdit.commentID? response2.data.data : comment));
+            setComments(comments.map(comment => comment.id === isEdit.commentID? responseEditedComment.data.data : comment));
         } catch(e) {
             console.log(e);
         }
@@ -85,7 +86,7 @@ const Comment = () => {
                 alert("해당 댓글을 지울 수 없습니다.");
                 return;
             }
-            const response = await api.deleteComment(commentID);
+            const response = await apiCall('deleteComment', commentID);
 
             if (response.status === 202){
                 setComments(comments.filter(comment => comment.id !== commentID));

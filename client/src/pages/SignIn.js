@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setMessage } from '../modules/message';
 import { setUsername } from '../modules/user';
 
-import * as api from '../lib/api';
+import apiCall from '../lib/api';
+import { historyPaths } from '../lib/paths';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
@@ -41,13 +42,14 @@ const SignIn = ({history}) => {
         
         setMessageCall(clientMessage.waitingServerResponse, 'is-warning', true);
         try {
-            const response = await api.signin(JSON.stringify(state));
+            const response = await apiCall('signin', null, JSON.stringify(state));
             if (response.status === 200) {
                 dispatch(setUsername(response.data.username));
-                history.push('/');
+                history.push(historyPaths.main);
             }
             
         } catch(e) {
+            console.log(e)
             setMessageCall(e.response.data.msg, 'is-danger', true);
         }
     }

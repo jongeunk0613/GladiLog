@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import * as api from '../lib/api';
+import { historyPaths } from '../lib/paths';
+import apiCall from '../lib/api';
 import PostForm from '../components/PostForm';
 import Modal from '../components/Modal';
 
@@ -22,7 +23,7 @@ const PostEdit = () => {
         const process = async () => {
             setLoading(true);
             try{
-                const resolved = await api.getPost(postID);
+                const resolved = await apiCall('getPost', postID, null);
                 setState(resolved.data.data);
                 if (resolved.data.data.username !== username){
                     setModal(true);
@@ -58,10 +59,10 @@ const PostEdit = () => {
         event.preventDefault();
         
         try {
-            const response = await api.editPost(postID, JSON.stringify(state));
+            const response = await apiCall('editPost', postID, JSON.stringify(state));
             
             if (response.status === 200) {
-                history.push(`/post/${postID}`);
+                history.push(historyPaths.postDetail + postID);
             }
         } catch(e) {
             console.log(e);

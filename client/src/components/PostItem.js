@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
+import { historyPaths } from '../lib/paths';
+
 const Container = styled.div`
     height: 13.5rem;
     padding: 1rem 1rem 2rem 1rem;
@@ -42,7 +44,7 @@ const VerticalLine = styled.div`
 const PostItem = ({post}) => {
     const history = useHistory();
     const onClick = () => {
-        history.push(`/post/${post.id}`)
+        history.push(historyPaths.postDetail + post.id);
     };
     
     return (

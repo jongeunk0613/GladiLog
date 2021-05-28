@@ -2,7 +2,8 @@ import React from 'react';
 import PostForm from '../components/PostForm';
 import { useHistory } from 'react-router-dom';
 
-import * as api from '../lib/api';
+import apiCall from '../lib/api';
+import { historyPaths } from '../lib/paths';
 import useInputs from '../hooks/useInputs';
 
 const PostWrite = () => {
@@ -16,10 +17,10 @@ const PostWrite = () => {
         event.preventDefault();
 
         try {
-            const response = await api.writePost(JSON.stringify(state));
+            const response = await apiCall('writePost', null, JSON.stringify(state));
             
             if (response.status === 201) {
-                history.push(`/post/${response.data.newPostID}`);
+                history.push(historyPaths.postDetail + response.data.newPostID);
             }
         } catch(e) {
             console.log(e);

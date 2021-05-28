@@ -3,7 +3,8 @@ import { faEnvelope, faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setMessage, toggleMessage } from '../modules/message';
 
-import * as api from '../lib/api';
+import apiCall from '../lib/api';
+import { historyPaths } from '../lib/paths';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import AuthForm from '../components/AuthForm';
@@ -45,12 +46,12 @@ const SignUp = ({history}) => {
         
         setMessageCall(clientMessage.waitingServerResponse, 'is-warning', true);
         try {
-            const response = await api.signup(JSON.stringify(state));
+            const response = await apiCall('signup', null, JSON.stringify(state));
             if (response.status === 201) {
                 setMessageCall(response.data.msg, 'is-success', true);
                 setTimeout(() => {
                     toggleMessageCall();
-                    history.push('/auth/signin');
+                    history.push(historyPaths.signin);
                 }, 1500);
             }
             

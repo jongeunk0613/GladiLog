@@ -12,12 +12,12 @@ def createPost():
         try:
             data = request.get_json(force=True)
             if not data.get('title') or not data.get('body'):
-                return jsonify({'msg': serverMessage.missingInputField}), 400
+                return jsonify({'msg': serverMessage["missingInputField"]}), 400
 
             db = DatabaseConnection()
             db.call_procedure('CreatePost', [data.get('title'), data.get('body'), current_user.get('id')], True)
             newPostID = db.call_procedure('GetPostLastIndex')[0]
-            return jsonify({'msg': serverMessage.createPostSuccessful, 'newPostID': newPostID.get('id')}), 201
+            return jsonify({'msg': serverMessage["createPostSuccessful"], 'newPostID': newPostID.get('id')}), 201
         except Exception as e:
             raise e
 
@@ -41,7 +41,7 @@ def getPost(id):
         result = db.call_procedure('GetPost', [id])
 
         if not result:
-            return jsonify({'msg': serverMessage.getPostWithIDFailed}), 400
+            return jsonify({'msg': serverMessage["getPostWithIDFailed"]}), 400
 
         post = result[0]
 
@@ -62,9 +62,9 @@ def deletePost(id):
 
             if user.get('username') == post.get('username'):
                 db.call_procedure('DeletePost', [id], True)
-                return jsonify({'msg': serverMessage.deletePostSuccessful}), 202
+                return jsonify({'msg': serverMessage["deletePostSuccessful"]}), 202
             else:
-                return jsonify({'msg': serverMessage.deletePostNotAuthorized}), 403
+                return jsonify({'msg': serverMessage["deletePostNotAuthorized"]}), 403
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400
@@ -84,8 +84,8 @@ def updatePost(id):
             if user.get('username') == post.get('username'):
                 db.call_procedure('UpdatePost', [id, data.get('title'), data.get('body')], True)
             else:
-                return jsonify({'msg': serverMessage.editPostNotAuthorized}), 403
-            return jsonify({'msg': serverMessage.editPostSuccessful}), 200
+                return jsonify({'msg': serverMessage["editPostNotAuthorized"]}), 403
+            return jsonify({'msg': serverMessage["editPostSuccessful"]}), 200
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400

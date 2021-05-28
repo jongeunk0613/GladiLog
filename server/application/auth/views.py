@@ -70,13 +70,13 @@ def signin():
         try:
             data = request.get_json(force=True)
             if not data.get('username') or not data.get('password'):
-                return jsonify({'msg': serverMessage.missingInputField}), 400
+                return jsonify({'msg': serverMessage["missingInputField"]}), 400
 
             db = DatabaseConnection()
             result = db.call_procedure('GetUserWithUsername', [data.get('username')])
 
             if not result:
-                return jsonify({'msg': serverMessage.noAccount}), 400
+                return jsonify({'msg': serverMessage["noAccount"]}), 400
 
             user = result[0]
 
@@ -88,7 +88,7 @@ def signin():
                 set_access_cookies(resp, access_token)
                 return resp, 200
             else:
-                return jsonify({'msg': serverMessage.wrongPassword}), 400
+                return jsonify({'msg': serverMessage["wrongPassword"]}), 400
         except Exception as e:
             raise e
 

@@ -12,11 +12,11 @@ def createComment(id):
         try:
             data = request.get_json(force=True)
             if not data.get('body'):
-                return jsonify({'msg': serverMessage.missingInputField}), 400
+                return jsonify({'msg': serverMessage["missingInputField"]}), 400
             db = DatabaseConnection()
             db.call_procedure('CreateComment', [data.get('body'), current_user.get('id'), id], True)
             newComment = db.call_procedure('GetLastComment')[0]
-            return jsonify({'msg': serverMessage.createCommentSuccessful, 'newComment': newComment}), 201
+            return jsonify({'msg': serverMessage["createCommentSuccessful"], 'newComment': newComment}), 201
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400
@@ -28,7 +28,7 @@ def getComments():
         postID = request.args.get('postID')
 
         if not postID:
-            return jsonify({'msg': serverMessage.missingInputField}), 400
+            return jsonify({'msg': serverMessage["missingInputField"]}), 400
 
         db = DatabaseConnection()
         comments = db.call_procedure('GetComments', [postID])
@@ -49,9 +49,9 @@ def deleteComment(id):
 
             if user.get('username') == post.get('username'):
                 db.call_procedure('DeleteComment', [id], True)
-                return jsonify({'msg': serverMessage.deleteCommentSuccessful}), 202
+                return jsonify({'msg': serverMessage["deleteCommentSuccessful"]}), 202
             else:
-                return jsonify({'msg': serverMessage.deleteCommentNotAuthorized}), 403
+                return jsonify({'msg': serverMessage["deleteCommentNotAuthorized"]}), 403
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400
@@ -64,7 +64,7 @@ def getComment(id):
         result = db.call_procedure('GetComment', [id])
 
         if not result:
-            return jsonify({'msg': serverMessage.getCommentWithIDFailed}), 400
+            return jsonify({'msg': serverMessage["getCommentWithIDFailed"]}), 400
 
         comment = result[0]
 
@@ -87,8 +87,8 @@ def updateComment(id):
             if user.get('username') == comment.get('username'):
                 db.call_procedure('UpdateComment', [id, data.get('body')], True)
             else:
-                return jsonify({'msg': serverMessage.editCommentNotAuthorized}), 403
-            return jsonify({'msg': serverMessage.editCommentSuccessful}), 200
+                return jsonify({'msg': serverMessage["editCommentNotAuthorized"]}), 403
+            return jsonify({'msg': serverMessage["editCommentSuccessful"]}), 200
         except Exception as e:
             raise e
     return jsonify({'success': False}), 400

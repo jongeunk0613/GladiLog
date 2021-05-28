@@ -26,7 +26,7 @@ def expired_token_callback(_jwt_header, jwt_data):
     try:
         decode_token(user['refresh_token'])
     except Exception:
-        return jsonify({'msg': serverMessage.sessionExpired}), 401
+        return jsonify({'msg': serverMessage["sessionExpired"]}), 401
     access_token = create_access_token(identity=user['id'])
     resp = jsonify({'success': True})
     set_access_cookies(resp, access_token)
@@ -39,21 +39,26 @@ def signup():
         try:
             data = request.get_json(force=True)
             if not data.get('email') or not data.get('username') or not data.get('password'):
-                return jsonify({'msg': serverMessage.missingInputField}), 400
+                return jsonify({'msg': serverMessage["missingInputField"]}), 400
 
             validationResult, message = isValid([data.get('email'), data.get('username'), data.get('password'), data.get('password2')])
             if not validationResult:
                 return jsonify({'msg': message}), 400
 
             db = DatabaseConnection()
-            if db.call_procedure('GetUserWithEmail', [data.get('email')]):
-                return jsonify({'msg': serverMessage.emailTaken}), 400
-
-            if db.call_procedure('GetUserWithUsername', [data.get('username')]):
-                return jsonify({'msg': serverMessage.usernameTaken}), 400
+            duplicateUser = db.call_procedure('GetDuplicateUser', [data.get('email'), data.get('username')])
+            if len(duplicateUser) == 2:
+                return jsonify({'msg': serverMessage["emailAndUsernameTaken"]}), 400
+            elif len(duplicateUser) == 1:
+                if duplicateUser[0]["email"] == data.get('email') and duplicateUser[0]["username"] == data.get('username'):
+                    return jsonify({'msg': serverMessage["emailAndUsernameTaken"]}), 400
+                elif duplicateUser[0]["username"] == data.get('username'):
+                    return jsonify({'msg': serverMessage["usernameTaken"]}), 400
+                elif duplicateUser[0]["email"] == data.get('email'):
+                    return jsonify({'msg': serverMessage["emailTaken"]}), 400
 
             db.call_procedure('CreateUser', [data.get('email'), data.get('username'), generate_password_hash(data.get('password'))], True)
-            return ({'msg': serverMessage.signupSuccessful}), 201
+            return ({'msg': serverMessage["signupSuccessful"]}), 201
         except (MySQLdb.Error, MySQLdb.Warning) as e:
             print(e)
             raise e

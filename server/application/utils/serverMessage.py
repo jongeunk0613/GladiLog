@@ -10,6 +10,7 @@ serverMessage = {
 
     "emailTaken": "이미 사용되고 있는 이메일입니다.",
     "usernameTaken": "이미 사용되고 있는 유저네임입니다.",
+    "emailAndUsernameTaken": "이미 사용되고 있는 이메일과 유저네임입니다.",
 
     "signupSuccessful": "회원가입 성공. 로그인 페이지로 이동중...",
 
